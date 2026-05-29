@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MamaLama — Puzzles, Toys & Books for Curious Kids</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Bubblegum+Sans&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================
+     MamaLama — Homepage (with real brand assets)
+     ============================================ */
+
+  :root {
+    --sky-pink: #ffd1f0;
+    --sky-lavender: #c8b8ff;
+    --sky-purple: #b8a4ff;
+    --sky-blue: #a8d8ff;
+    --cloud-white: #fffaf5;
+    --lama-green: #b5dc4e;
+    --pop-purple: #8b5cf6;
+    --pop-pink: #ff6fa8;
+    --pop-hot-pink: #ff3b8b;
+    --pop-yellow: #ffd93d;
+    --pop-orange: #ff9d3d;
+    --tier-s: #ffb800;
+    --tier-a: #ef4444;
+    --tier-b: #10b981;
+    --tier-c: #3b82f6;
+    --tier-d: #f472b6;
+    --text-dark: #2b2147;
+    --text-soft: #6b5a8f;
+    --radius-lg: 28px;
+    --radius-md: 18px;
+    --radius-sm: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Fredoka', system-ui, sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    background-image: url('background.png');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-color: #6fb86a;
+  }
+
+  .sparkle-layer { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+  .sparkle { position: absolute; color: var(--pop-yellow); font-size: 22px; animation: twinkle 3s ease-in-out infinite; text-shadow: 0 0 10px rgba(255, 217, 61, 0.6); }
+  .sparkle.s1 { top: 14%; left: 38%; animation-delay: 0s; }
+  .sparkle.s2 { top: 26%; left: 78%; animation-delay: 0.8s; color: var(--pop-purple); }
+  .sparkle.s3 { top: 50%; left: 18%; animation-delay: 1.6s; color: var(--pop-pink); }
+  .sparkle.s4 { top: 68%; left: 72%; animation-delay: 2.4s; }
+  .sparkle.s5 { top: 18%; left: 12%; animation-delay: 1.2s; color: var(--pop-purple); }
+  .sparkle.s6 { top: 42%; left: 88%; animation-delay: 0.4s; color: var(--pop-pink); }
+  @keyframes twinkle {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+    50%      { transform: scale(1.4) rotate(180deg); opacity: 1; }
+  }
+
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255, 250, 245, 0.85);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    padding: 10px 5%;
+    box-shadow: 0 4px 24px rgba(139, 92, 246, 0.1);
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center; gap: 24px;
+    border-bottom: 2px solid rgba(255, 209, 240, 0.5);
+  }
+  .logo-img { height: 135px; width: auto; cursor: pointer; transition: transform 0.3s; filter: drop-shadow(0 4px 14px rgba(139, 92, 246, 0.3)); }
+  .logo-img:hover { transform: scale(1.05) rotate(-2deg); }
+  .search-bar { width: 100%; max-width: 560px; margin: 0 auto; position: relative; justify-self: center; }
+  .search-bar input { width: 100%; padding: 13px 50px 13px 22px; border: 2.5px solid var(--sky-lavender); border-radius: 30px; font-family: 'Fredoka', sans-serif; font-size: 15px; color: var(--text-dark); background: white; outline: none; transition: all 0.3s; }
+  .search-bar input::placeholder { color: var(--text-soft); }
+  .search-bar input:focus { border-color: var(--pop-purple); box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15); }
+  .search-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border: none; border-radius: 50%; background: linear-gradient(135deg, var(--pop-pink), var(--pop-hot-pink)); color: white; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .header-actions { display: flex; align-items: center; gap: 14px; }
+  .icon-btn { border: none; background: transparent; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-family: 'Fredoka', sans-serif; font-size: 11px; font-weight: 500; color: var(--text-soft); border-radius: var(--radius-sm); transition: all 0.25s; position: relative; padding: 6px 10px; }
+  .icon-btn:hover { background: rgba(139, 92, 246, 0.1); transform: translateY(-2px); }
+  .icon-btn .icon-img { width: 36px; height: 36px; object-fit: contain; }
+  .trophy-btn { background: linear-gradient(135deg, #ffe27a, #ffb800); color: white; width: 58px; height: 58px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 3px var(--tier-s), 0 4px 18px rgba(255, 184, 0, 0.5); cursor: pointer; font-size: 28px; display: flex; align-items: center; justify-content: center; animation: trophyPulse 2.2s ease-in-out infinite; flex-direction: row; gap: 0; padding: 0; }
+  .trophy-btn:hover { transform: scale(1.1) rotate(-5deg); }
+  @keyframes trophyPulse {
+    0%, 100% { box-shadow: 0 0 0 3px var(--tier-s), 0 4px 18px rgba(255, 184, 0, 0.5); }
+    50%      { box-shadow: 0 0 0 3px var(--tier-s), 0 4px 28px rgba(255, 184, 0, 0.9), 0 0 60px rgba(255, 217, 61, 0.5); }
+  }
+  .trophy-tag { position: absolute; top: -6px; right: -14px; background: var(--pop-hot-pink); color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); white-space: nowrap; }
+  .cart-wrap, .wishlist-wrap { position: relative; }
+  .cart-count { position: absolute; top: 0; right: 4px; background: var(--pop-hot-pink); color: white; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+
+  .category-nav { background: rgba(255, 250, 245, 0.75); backdrop-filter: blur(10px); padding: 12px 5%; display: flex; gap: 12px; border-bottom: 1px solid rgba(255, 209, 240, 0.4); position: sticky; top: 80px; z-index: 99; }
+  .cat-chip { flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 18px; background: white; border: 2px solid var(--sky-lavender); border-radius: 22px; font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-dark); cursor: pointer; transition: all 0.25s; white-space: nowrap; }
+  .cat-chip:hover { transform: translateY(-3px); border-color: var(--pop-purple); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2); }
+  .cat-chip.active { background: linear-gradient(135deg, var(--pop-purple), var(--pop-pink)); color: white; border-color: transparent; }
+
+  .lama-balloon-wrap { position: fixed; right: 3%; top: 200px; z-index: 50; width: 170px; pointer-events: none; transition: top 0.1s linear; animation: balloonSway 5s ease-in-out infinite; filter: drop-shadow(0 8px 20px rgba(139, 92, 246, 0.25)); }
+  @keyframes balloonSway { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+  .balloon-img { width: 100%; height: auto; display: block; position: relative; z-index: 1; }
+  .balloon-mascot { position: absolute; top: 67%; left: 31%; width: 38%; aspect-ratio: 1 / 1; z-index: 2; clip-path: inset(0 0 8% 0); }
+  .mascot-body { width: 100%; height: auto; display: block; position: relative; z-index: 1; }
+  .mascot-arm { position: absolute; top: 41.47%; left: 2.39%; width: 20.33%; height: auto; transform-origin: 85% 88%; animation: lamaWave 1.6s ease-in-out infinite; z-index: 2; will-change: transform; }
+  @keyframes lamaWave {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(-22deg); }
+    30%  { transform: rotate(-8deg); }
+    45%  { transform: rotate(-25deg); }
+    60%  { transform: rotate(-10deg); }
+    75%  { transform: rotate(-20deg); }
+    100% { transform: rotate(0deg); }
+  }
+  .hero-welcome-bubble { position: fixed; top: 230px; right: calc(3% + 180px); background: white; border-radius: 20px; padding: 12px 18px; box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25); font-size: 13px; color: var(--text-dark); font-weight: 500; animation: bubbleFloat 3s ease-in-out infinite; z-index: 51; border: 2px solid var(--sky-lavender); max-width: 220px; transition: opacity 0.6s ease; }
+  .hero-welcome-bubble::after { content: ''; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); border: 10px solid transparent; border-left-color: white; }
+  @keyframes bubbleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+  main { position: relative; z-index: 2; }
+  .hero { padding: 60px 5% 60px; text-align: center; position: relative; display: flex; flex-direction: column; align-items: center; }
+  .hero-slider { --parallax-y: 0px; width: 100%; max-width: 1100px; min-height: 420px; border-radius: var(--radius-lg); position: relative; box-shadow: 0 16px 50px rgba(139, 92, 246, 0.25); overflow: hidden; border: 4px solid white; transform: translateY(var(--parallax-y)); will-change: transform; }
+  .hero-slide { position: absolute; inset: 0; padding: 60px 60px 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0; visibility: hidden; transition: opacity 0.7s ease, visibility 0.7s ease; }
+  .hero-slide.active { opacity: 1; visibility: visible; z-index: 2; }
+  .hero-slide::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 100%); pointer-events: none; }
+  .hero-slide.slide-1 { background-image: url('hero-banner.png'); }
+  .hero-slide.slide-2 { background: linear-gradient(135deg, #ffe27a 0%, #ff9d3d 45%, #ff6fa8 100%); padding: 40px 50px 70px; }
+  .hero-slide.slide-2 .hero-tagline { color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+  .hero-slide.slide-2 h2 { font-family: 'Bubblegum Sans', cursive; font-size: clamp(28px, 4vw, 44px); color: white; text-shadow: 2px 2px 0 rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.25); margin-bottom: 18px; text-align: center; line-height: 1.05; position: relative; }
+  .podium { display: grid; grid-template-columns: 1fr 1.2fr 1fr; align-items: end; gap: 14px; max-width: 760px; width: 100%; position: relative; }
+  .podium-spot { background: linear-gradient(180deg, #ffffff, #fff8f0); border-radius: 18px; padding: 22px 14px 16px; text-align: center; position: relative; border: 3px solid white; box-shadow: 0 12px 24px rgba(0,0,0,0.22); }
+  .podium-spot.p1 { padding-top: 30px; border-color: #ffd93d; background: linear-gradient(180deg, #fff8dc, #ffeaa7); transform: translateY(-14px); box-shadow: 0 16px 30px rgba(0,0,0,0.28); }
+  .podium-spot.p2 { background: linear-gradient(180deg, #f8f8f8, #e6e6e6); border-color: #c8c8c8; }
+  .podium-spot.p3 { background: linear-gradient(180deg, #ffe6cc, #ffc999); border-color: #d97a3c; }
+  .podium-medal { position: absolute; top: -22px; left: 50%; transform: translateX(-50%); font-size: 36px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
+  .podium-avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #ffd1f0, #c8b8ff); border: 3px solid white; display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 4px auto 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
+  .podium-name { font-family: 'Bubblegum Sans', cursive; font-size: 22px; color: var(--text-dark); margin-bottom: 2px; line-height: 1; }
+  .podium-puzzle { font-size: 11.5px; color: var(--text-soft); font-weight: 500; margin-bottom: 8px; line-height: 1.3; min-height: 30px; }
+  .podium-time { font-size: 13px; color: var(--pop-purple); font-weight: 700; background: white; padding: 4px 10px; border-radius: 10px; display: inline-block; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+  .podium-tier-chip { position: absolute; top: 8px; right: 8px; background: rgba(139, 92, 246, 0.92); color: white; font-family: 'Bubblegum Sans', cursive; font-size: 12px; padding: 2px 9px; border-radius: 10px; }
+  .podium-tier-chip.ss { background: linear-gradient(135deg, #ff6fa8, #b8a4ff); }
+  .podium-tier-chip.s  { background: linear-gradient(135deg, #ffe27a, #ffb800); color: var(--text-dark); }
+  .podium-tier-chip.a  { background: linear-gradient(135deg, #ff8888, #ef4444); }
+  .podium-tier-chip.b  { background: linear-gradient(135deg, #4ad9a3, #10b981); }
+  .hero-dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+  .hero-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 255, 255, 0.55); border: none; cursor: pointer; padding: 0; transition: all 0.35s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+  .hero-dot.active { width: 28px; border-radius: 5px; background: white; }
+  .hero-dot:hover { background: white; }
+  .hero-progress { position: absolute; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--pop-pink), var(--pop-hot-pink)); width: 0%; z-index: 11; border-radius: 0 4px 4px 0; transition: width 0.1s linear; }
+  .hero-tagline { font-size: 14px; color: var(--pop-purple); font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; position: relative; text-shadow: 0 1px 2px rgba(255,255,255,0.8); }
+  .hero h1 { font-family: 'Bubblegum Sans', cursive; font-size: clamp(40px, 6vw, 72px); line-height: 1.05; margin-bottom: 22px; color: var(--text-dark); position: relative; text-shadow: 2px 2px 0 white, 0 4px 12px rgba(0,0,0,0.1); }
+  .hero h1 .accent { background: linear-gradient(90deg, var(--pop-purple), var(--pop-hot-pink)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { font-size: 18px; color: var(--text-dark); margin-bottom: 32px; max-width: 600px; line-height: 1.6; position: relative; font-weight: 500; text-shadow: 0 1px 2px rgba(255,255,255,0.6); }
+  .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 17px 38px; background: linear-gradient(135deg, var(--pop-pink), var(--pop-hot-pink)); color: white; border: none; border-radius: 30px; font-family: 'Fredoka', sans-serif; font-size: 17px; font-weight: 600; cursor: pointer; box-shadow: 0 6px 0 #c9266f, 0 10px 24px rgba(255, 59, 139, 0.4); transition: all 0.2s; position: relative; text-decoration: none; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 0 #c9266f, 0 14px 30px rgba(255, 59, 139, 0.5); }
+  .btn-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 #c9266f, 0 4px 12px rgba(255, 59, 139, 0.3); }
+  .trust-row { max-width: 1100px; width: 100%; margin: 36px auto 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .trust-card { --parallax-y: 0px; background: white; border-radius: var(--radius-md); padding: 18px; display: flex; align-items: center; gap: 14px; box-shadow: 0 6px 18px rgba(139, 92, 246, 0.12); transition: transform 0.25s; border: 2px solid transparent; transform: translateY(var(--parallax-y)); will-change: transform; }
+  .trust-card:hover { transform: translateY(calc(var(--parallax-y) - 4px)); border-color: var(--sky-lavender); }
+  .trust-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+  .trust-card.c1 .trust-icon { background: #fff4d6; }
+  .trust-card.c2 .trust-icon { background: #e0e7ff; }
+  .trust-card.c3 .trust-icon { background: #d4f7e2; }
+  .trust-card.c4 .trust-icon { background: #ffe3f1; }
+  .trust-text strong { display: block; font-size: 15px; color: var(--text-dark); }
+  .trust-text small { font-size: 12px; color: var(--text-soft); }
+
+  section.spaced { padding: 70px 5%; max-width: 1300px; margin: 0 auto; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 12px; }
+  .section-header h2 { font-family: 'Bubblegum Sans', cursive; font-size: 40px; color: var(--text-dark); text-shadow: 2px 2px 0 white, 0 4px 8px rgba(0,0,0,0.1); }
+  .section-header a { color: var(--pop-purple); font-weight: 600; text-decoration: none; font-size: 15px; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.25s; background: white; padding: 8px 16px; border-radius: 20px; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.12); }
+  .section-header a:hover { gap: 10px; }
+
+  .tier-banner-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+  .tier-banner { aspect-ratio: 2 / 3; perspective: 1400px; cursor: pointer; }
+  .tier-banner-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.85s cubic-bezier(0.4, 0.2, 0.2, 1); will-change: transform; }
+  .tier-banner.flipped .tier-banner-inner { transform: rotateY(180deg); }
+  .tier-banner-front, .tier-banner-back { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 26px; padding: 16px 14px; display: flex; flex-direction: column; box-shadow: 0 14px 30px rgba(139, 92, 246, 0.22); overflow: hidden; border: 3px solid white; }
+  .tier-banner-front { padding: 22px 18px; align-items: center; justify-content: space-between; color: white; text-align: center; position: relative; }
+  .tier-banner-back .back-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; padding-right: 2px; scrollbar-width: thin; }
+  .tier-banner-back .back-body::-webkit-scrollbar { width: 4px; }
+  .tier-banner-back .back-body::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.3); border-radius: 2px; }
+  .tier-banner-front::before { content: ''; position: absolute; inset: -40%; background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.45), transparent 55%); pointer-events: none; }
+  .tier-banner-front .rank-letter { font-family: 'Bubblegum Sans', cursive; font-size: clamp(56px, 7vw, 92px); line-height: 1; text-shadow: 0 6px 0 rgba(0,0,0,0.18), 0 10px 24px rgba(0,0,0,0.25); letter-spacing: 1px; z-index: 2; }
+  .tier-banner-front .rank-title { font-family: 'Bubblegum Sans', cursive; font-size: clamp(14px, 1.2vw, 18px); text-shadow: 0 2px 4px rgba(0,0,0,0.25); margin-bottom: 4px; z-index: 2; }
+  .tier-banner-front .rank-emoji { font-size: 38px; z-index: 2; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25)); }
+  .tier-banner-front .tap-hint { font-size: 11px; font-weight: 500; background: rgba(255,255,255,0.28); padding: 4px 10px; border-radius: 12px; backdrop-filter: blur(6px); z-index: 2; }
+  .tier-banner.ss .tier-banner-front { background: linear-gradient(135deg, #ff6fa8, #b8a4ff 45%, #76b8ff 80%, #ffd93d); }
+  .tier-banner.s  .tier-banner-front { background: linear-gradient(135deg, #ffe27a, #ffb800); }
+  .tier-banner.a  .tier-banner-front { background: linear-gradient(135deg, #ff8888, #ef4444); }
+  .tier-banner.b  .tier-banner-front { background: linear-gradient(135deg, #4ad9a3, #10b981); }
+  .tier-banner.c  .tier-banner-front { background: linear-gradient(135deg, #76b8ff, #3b82f6); }
+  .tier-banner.d  .tier-banner-front { background: linear-gradient(135deg, #ffaad6, #f472b6); }
+  .tier-banner.ss .tier-banner-back { border-top: 6px solid #b8a4ff; }
+  .tier-banner.s  .tier-banner-back { border-top: 6px solid #ffb800; }
+  .tier-banner.a  .tier-banner-back { border-top: 6px solid #ef4444; }
+  .tier-banner.b  .tier-banner-back { border-top: 6px solid #10b981; }
+  .tier-banner.c  .tier-banner-back { border-top: 6px solid #3b82f6; }
+  .tier-banner.d  .tier-banner-back { border-top: 6px solid #f472b6; }
+  .tier-banner-back { transform: rotateY(180deg); background: white; color: var(--text-dark); text-align: left; justify-content: space-between; }
+  .tier-banner-back .back-rank { font-family: 'Bubblegum Sans', cursive; font-size: 24px; color: var(--pop-purple); line-height: 1; }
+  .tier-banner-back .back-title { font-size: 12px; font-weight: 600; color: var(--text-soft); margin-top: 2px; }
+  .tier-banner-back .back-desc { font-size: 11.5px; line-height: 1.4; color: var(--text-dark); margin-top: 6px; }
+  .tier-banner-back .back-rewards { font-size: 10.5px; color: var(--text-soft); margin-top: 5px; font-weight: 500; line-height: 1.35; }
+  .tier-banner-back .back-rewards strong { color: var(--pop-hot-pink); font-weight: 700; }
+  .tier-banner-back .back-challenge { font-size: 10.5px; font-style: italic; color: var(--pop-purple); margin-top: 5px; line-height: 1.35; }
+  .see-products-btn { margin-top: 8px; width: 100%; padding: 9px 10px; background: linear-gradient(135deg, var(--pop-purple), var(--pop-pink)); color: white; border: none; border-radius: 12px; font-family: 'Fredoka', sans-serif; font-size: 12.5px; font-weight: 600; cursor: pointer; transition: transform 0.25s, box-shadow 0.25s; box-shadow: 0 6px 14px rgba(139, 92, 246, 0.35); flex-shrink: 0; }
+  .see-products-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.45); }
+
+  .leaderboard-section { background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(255, 247, 230, 0.92)); border-radius: var(--radius-lg); padding: 48px 40px; margin: 30px auto; max-width: 1300px; box-shadow: 0 16px 40px rgba(139, 92, 246, 0.15); }
+  .leaderboard-header { text-align: center; margin-bottom: 28px; }
+  .leaderboard-header h2 { font-family: 'Bubblegum Sans', cursive; font-size: 38px; color: var(--text-dark); text-shadow: 2px 2px 0 white, 0 4px 8px rgba(0,0,0,0.1); }
+  .leaderboard-header p { color: var(--text-soft); margin-top: 6px; font-size: 15px; }
+  .leaderboard-list { display: flex; flex-direction: column; gap: 10px; max-width: 760px; margin: 0 auto; }
+  .leader-row { display: grid; grid-template-columns: 60px 56px 1fr auto auto; align-items: center; gap: 16px; padding: 14px 20px; background: white; border-radius: 18px; transition: transform 0.25s, box-shadow 0.25s; border: 2px solid transparent; }
+  .leader-row:hover { transform: translateX(4px); box-shadow: 0 8px 20px rgba(139, 92, 246, 0.18); border-color: var(--sky-lavender); }
+  .leader-row.top { background: linear-gradient(135deg, #fff8dc, #ffeaa7); border-color: #ffd93d; }
+  .leader-row.top-2 { background: linear-gradient(135deg, #f5f5f5, #e8e8e8); }
+  .leader-row.top-3 { background: linear-gradient(135deg, #ffe6cc, #ffc999); }
+  .leader-rank { font-family: 'Bubblegum Sans', cursive; font-size: 28px; color: var(--text-dark); display: flex; align-items: center; gap: 4px; }
+  .leader-avatar { width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--sky-pink), var(--sky-lavender)); display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2); }
+  .leader-info .leader-name { font-size: 17px; font-weight: 600; color: var(--text-dark); }
+  .leader-info .leader-title { font-size: 12px; color: var(--text-soft); }
+  .leader-puzzle { font-size: 12px; color: var(--text-soft); text-align: right; max-width: 180px; }
+  .leader-tier { width: 38px; height: 38px; border-radius: 50%; color: white; font-family: 'Bubblegum Sans', cursive; font-size: 16px; display: flex; align-items: center; justify-content: center; border: 3px solid white; box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+  .leader-tier.s { background: linear-gradient(135deg, #ffe27a, #ffb800); }
+  .leader-tier.a { background: linear-gradient(135deg, #ff8888, #ef4444); }
+  .leader-tier.b { background: linear-gradient(135deg, #4ad9a3, #10b981); }
+  .leader-tier.c { background: linear-gradient(135deg, #76b8ff, #3b82f6); }
+  .leader-tier.d { background: linear-gradient(135deg, #ffaad6, #f472b6); }
+
+  @media (max-width: 1100px) { .tier-banner-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px) {
+    .tier-banner-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .leader-row { grid-template-columns: 44px 44px 1fr auto; gap: 10px; padding: 10px 14px; }
+    .leader-puzzle { display: none; }
+  }
+
+  .sky-trail-section { background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(248, 240, 255, 0.92)); border-radius: var(--radius-lg); padding: 56px 48px; margin: 30px auto; max-width: 1300px; border: 4px solid white; box-shadow: 0 14px 40px rgba(139, 92, 246, 0.18); position: relative; overflow: hidden; }
+  .sky-trail-section h2 { font-family: 'Bubblegum Sans', cursive; font-size: 42px; text-align: center; margin-bottom: 8px; color: var(--text-dark); }
+  .sky-trail-section .subtitle { text-align: center; color: var(--text-soft); font-size: 16px; margin-bottom: 40px; }
+  .tier-ladder { display: flex; justify-content: space-between; align-items: flex-end; max-width: 800px; margin: 0 auto; gap: 12px; position: relative; }
+  .tier-ladder::before { content: ''; position: absolute; bottom: 28px; left: 5%; right: 5%; height: 4px; background: linear-gradient(90deg, var(--tier-d), var(--tier-c), var(--tier-b), var(--tier-a), var(--tier-s)); border-radius: 4px; z-index: 0; }
+  .tier-step { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 14px; position: relative; z-index: 1; }
+  .tier-step .step-circle { width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Bubblegum Sans', cursive; font-size: 30px; border: 4px solid white; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); cursor: pointer; transition: transform 0.3s; }
+  .tier-step .step-circle:hover { transform: scale(1.1) rotate(-5deg); }
+  .tier-step.s .step-circle { background: linear-gradient(135deg, #ffe27a, var(--tier-s)); }
+  .tier-step.a .step-circle { background: linear-gradient(135deg, #ff8888, var(--tier-a)); }
+  .tier-step.b .step-circle { background: linear-gradient(135deg, #4ad9a3, var(--tier-b)); }
+  .tier-step.c .step-circle { background: linear-gradient(135deg, #76b8ff, var(--tier-c)); }
+  .tier-step.d .step-circle { background: linear-gradient(135deg, #ffaad6, var(--tier-d)); }
+  .tier-label { text-align: center; font-size: 12px; color: var(--text-soft); font-weight: 500; line-height: 1.3; }
+  .tier-label strong { display: block; color: var(--text-dark); font-size: 13px; }
+  .trail-cta { text-align: center; margin-top: 38px; }
+
+  .island-footer { margin-top: 80px; padding: 80px 5% 30px; position: relative; color: var(--text-dark); }
+  .island-content { max-width: 1200px; margin: 0 auto; text-align: center; position: relative; background: rgba(255, 250, 245, 0.7); backdrop-filter: blur(8px); border-radius: var(--radius-lg); padding: 50px 40px; border: 3px solid white; box-shadow: 0 14px 40px rgba(43, 33, 71, 0.15); }
+  .island-footer h3 { font-family: 'Bubblegum Sans', cursive; font-size: 36px; margin-bottom: 12px; }
+  .island-footer p { color: var(--text-soft); margin-bottom: 30px; }
+  .footer-links { display: flex; justify-content: center; gap: 32px; margin-bottom: 30px; flex-wrap: wrap; }
+  .footer-links a { color: var(--text-dark); text-decoration: none; font-weight: 500; transition: color 0.25s; }
+  .footer-links a:hover { color: var(--pop-purple); }
+  .footer-copy { border-top: 2px solid rgba(43, 33, 71, 0.15); padding-top: 22px; font-size: 13px; color: var(--text-soft); }
+
+  .view { display: none; }
+  .view.active { display: block; animation: viewFadeIn 0.35s ease; }
+  @keyframes viewFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .page-section { max-width: 1300px; margin: 0 auto; padding: 56px 5% 80px; }
+  .page-header { text-align: center; margin-bottom: 36px; }
+  .page-header h1 { font-family: 'Bubblegum Sans', cursive; font-size: clamp(32px, 5vw, 56px); color: var(--text-dark); text-shadow: 2px 2px 0 white, 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 6px; }
+  .page-header p { color: var(--text-soft); font-size: 15px; }
+  .back-home-link { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--pop-purple); font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; padding: 9px 18px; border-radius: 22px; text-decoration: none; margin-bottom: 18px; box-shadow: 0 6px 14px rgba(139, 92, 246, 0.18); border: 2px solid transparent; transition: all 0.25s; cursor: pointer; }
+  .back-home-link:hover { background: linear-gradient(135deg, var(--pop-purple), var(--pop-pink)); color: white; transform: translateX(-3px); }
+  .empty-state { display: none; text-align: center; padding: 60px 24px; background: rgba(255, 255, 255, 0.85); border-radius: var(--radius-lg); box-shadow: 0 12px 30px rgba(139, 92, 246, 0.15); max-width: 560px; margin: 0 auto; }
+  .empty-state.visible { display: block; }
+  .empty-state .empty-emoji { font-size: 80px; margin-bottom: 12px; filter: drop-shadow(0 6px 12px rgba(139, 92, 246, 0.2)); }
+  .empty-state h2 { font-family: 'Bubblegum Sans', cursive; font-size: 32px; color: var(--text-dark); margin-bottom: 8px; }
+  .empty-state p { color: var(--text-soft); margin-bottom: 22px; line-height: 1.5; }
+
+  .cart-layout { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; }
+  .cart-layout.hidden { display: none; }
+  .cart-items { display: flex; flex-direction: column; gap: 14px; }
+  .cart-item { display: grid; grid-template-columns: 90px 1fr auto auto; gap: 18px; align-items: center; background: white; padding: 18px 20px; border-radius: 18px; box-shadow: 0 8px 20px rgba(139, 92, 246, 0.12); border: 2px solid transparent; transition: border-color 0.2s, box-shadow 0.2s; }
+  .cart-item:hover { border-color: var(--sky-lavender); }
+  .cart-item-banner { width: 90px; height: 90px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 44px; position: relative; }
+  .cart-item-banner.ss { background: linear-gradient(135deg, #ffd1f0, #c8b8ff 50%, #a8d8ff); }
+  .cart-item-banner.s  { background: linear-gradient(135deg, #fff4c2, #ffe27a); }
+  .cart-item-banner.a  { background: linear-gradient(135deg, #ffd1d1, #ff8888); }
+  .cart-item-banner.b  { background: linear-gradient(135deg, #c5f0de, #4ad9a3); }
+  .cart-item-banner.c  { background: linear-gradient(135deg, #cfe4ff, #76b8ff); }
+  .cart-item-banner.d  { background: linear-gradient(135deg, #ffe4f1, #ffaad6); }
+  .cart-item-banner .mini-tier { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%; background: white; color: var(--text-dark); font-family: 'Bubblegum Sans', cursive; font-size: 11px; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+  .cart-item-info h3 { font-size: 17px; color: var(--text-dark); margin-bottom: 4px; font-weight: 600; }
+  .cart-item-info .meta { font-size: 12.5px; color: var(--text-soft); margin-bottom: 8px; }
+  .cart-item-actions { display: flex; gap: 14px; font-size: 12.5px; }
+  .cart-item-actions button { background: transparent; border: none; color: var(--text-soft); cursor: pointer; font-family: 'Fredoka', sans-serif; font-weight: 500; padding: 0; transition: color 0.2s; }
+  .cart-item-actions button:hover { color: var(--pop-purple); }
+  .cart-item-actions .remove-btn:hover { color: var(--pop-hot-pink); }
+  .qty-control { display: inline-flex; align-items: center; background: var(--cloud-white); border-radius: 12px; padding: 4px; border: 2px solid var(--sky-lavender); }
+  .qty-control button { width: 30px; height: 30px; border: none; background: transparent; cursor: pointer; font-size: 18px; color: var(--pop-purple); font-weight: 700; border-radius: 8px; transition: background 0.2s; }
+  .qty-control button:hover { background: rgba(139, 92, 246, 0.12); }
+  .qty-control .qty { min-width: 28px; text-align: center; font-weight: 600; color: var(--text-dark); }
+  .cart-item-price { font-family: 'Bubblegum Sans', cursive; font-size: 24px; color: var(--pop-hot-pink); min-width: 80px; text-align: right; }
+  .cart-summary { background: white; padding: 26px 24px; border-radius: 20px; box-shadow: 0 14px 30px rgba(139, 92, 246, 0.18); position: sticky; top: 200px; }
+  .cart-summary h3 { font-family: 'Bubblegum Sans', cursive; font-size: 24px; color: var(--text-dark); margin-bottom: 18px; }
+  .summary-row { display: flex; justify-content: space-between; padding: 9px 0; color: var(--text-soft); font-size: 14.5px; }
+  .summary-row.total { border-top: 2px dashed var(--sky-lavender); margin-top: 8px; padding-top: 16px; color: var(--text-dark); font-weight: 600; font-size: 18px; }
+  .summary-row.total span:last-child { font-family: 'Bubblegum Sans', cursive; color: var(--pop-hot-pink); font-size: 26px; font-weight: 400; }
+  .checkout-btn { width: 100%; margin-top: 16px; justify-content: center; }
+  .trust-note { font-size: 11.5px; color: var(--text-soft); text-align: center; margin-top: 12px; line-height: 1.5; }
+  .continue-shopping { display: block; text-align: center; margin-top: 14px; color: var(--pop-purple); font-weight: 600; text-decoration: none; font-size: 14px; }
+  .continue-shopping:hover { text-decoration: underline; }
+
+  .wishlist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 22px; }
+  .wishlist-grid.hidden { display: none; }
+  .wishlist-card { background: white; border-radius: 20px; padding: 16px; box-shadow: 0 10px 24px rgba(139, 92, 246, 0.15); display: flex; flex-direction: column; transition: transform 0.25s, box-shadow 0.25s; border: 2px solid transparent; }
+  .wishlist-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(139, 92, 246, 0.22); border-color: var(--sky-lavender); }
+  .wishlist-banner { aspect-ratio: 1.4 / 1; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 60px; margin-bottom: 12px; position: relative; }
+  .wishlist-banner.ss { background: linear-gradient(135deg, #ffd1f0, #c8b8ff 50%, #a8d8ff); }
+  .wishlist-banner.s  { background: linear-gradient(135deg, #fff4c2, #ffe27a); }
+  .wishlist-banner.a  { background: linear-gradient(135deg, #ffd1d1, #ff8888); }
+  .wishlist-banner.b  { background: linear-gradient(135deg, #c5f0de, #4ad9a3); }
+  .wishlist-banner.c  { background: linear-gradient(135deg, #cfe4ff, #76b8ff); }
+  .wishlist-banner.d  { background: linear-gradient(135deg, #ffe4f1, #ffaad6); }
+  .wishlist-banner .tier-pill { position: absolute; top: 8px; right: 8px; background: white; color: var(--text-dark); font-family: 'Bubblegum Sans', cursive; font-size: 13px; padding: 3px 10px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+  .wishlist-card h3 { font-size: 16px; color: var(--text-dark); margin-bottom: 4px; font-weight: 600; line-height: 1.3; }
+  .wishlist-card .meta { font-size: 12px; color: var(--text-soft); margin-bottom: 8px; }
+  .wishlist-card .price { font-family: 'Bubblegum Sans', cursive; font-size: 22px; color: var(--pop-hot-pink); margin-bottom: 12px; margin-top: auto; }
+  .wishlist-actions { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+  .wishlist-actions .btn-add-cart { background: linear-gradient(135deg, var(--pop-purple), var(--pop-pink)); color: white; border: none; padding: 10px 12px; border-radius: 12px; font-family: 'Fredoka', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); transition: transform 0.2s; }
+  .wishlist-actions .btn-add-cart:hover { transform: translateY(-2px); }
+  .wishlist-actions .btn-remove { background: var(--cloud-white); border: 2px solid var(--sky-lavender); color: var(--text-soft); width: 40px; border-radius: 12px; cursor: pointer; font-size: 16px; transition: all 0.2s; }
+  .wishlist-actions .btn-remove:hover { background: var(--pop-hot-pink); color: white; border-color: var(--pop-hot-pink); }
+  .wishlist-wrap .wish-count { position: absolute; top: -2px; right: 2px; min-width: 18px; height: 18px; background: var(--pop-purple); color: white; border-radius: 9px; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 5px; border: 2px solid white; }
+  .wishlist-wrap .wish-count.hidden { display: none; }
+
+  @media (max-width: 900px) { .cart-layout { grid-template-columns: 1fr; } .cart-summary { position: static; } }
+  @media (max-width: 600px) {
+    .cart-item { grid-template-columns: 70px 1fr; grid-template-rows: auto auto; gap: 12px; }
+    .cart-item-banner { width: 70px; height: 70px; font-size: 32px; }
+    .qty-control { grid-column: 1 / -1; justify-self: start; }
+    .cart-item-price { grid-column: 1 / -1; text-align: left; }
+  }
+
+  /* Sky Trail dashboard */
+  .trail-empty { display: none; text-align: center; }
+  .trail-empty { display: block; padding: 40px 24px; background: white; border-radius: var(--radius-lg); max-width: 520px; margin: 0 auto; box-shadow: 0 16px 40px rgba(139, 92, 246, 0.18); }
+  .trail-dashboard { display: none; flex-direction: column; gap: 26px; }
+  .profile-hero { background: linear-gradient(135deg, #ffe4f1, #c8b8ff 60%, #a8d8ff); border-radius: var(--radius-lg); padding: 32px 36px; text-align: center; color: var(--text-dark); box-shadow: 0 18px 40px rgba(139, 92, 246, 0.25); border: 4px solid white; position: relative; }
+  .profile-avatar-lg { width: 110px; height: 110px; border-radius: 50%; background: white; border: 5px solid white; display: flex; align-items: center; justify-content: center; font-size: 70px; margin: 0 auto 12px; box-shadow: 0 10px 24px rgba(0,0,0,0.15); }
+  .profile-name-lg { font-family: 'Bubblegum Sans', cursive; font-size: 32px; color: var(--text-dark); margin-bottom: 4px; text-shadow: 2px 2px 0 white; }
+  .profile-age { color: var(--text-soft); margin-bottom: 12px; }
+  .profile-tier-chip { display: inline-block; padding: 6px 18px; border-radius: 18px; font-family: 'Bubblegum Sans', cursive; font-size: 18px; color: white; margin-bottom: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+  .profile-tier-chip.ss { background: linear-gradient(135deg, #ff6fa8, #b8a4ff 50%, #76b8ff); }
+  .profile-tier-chip.s  { background: linear-gradient(135deg, #ffe27a, #ffb800); color: var(--text-dark); }
+  .profile-tier-chip.a  { background: linear-gradient(135deg, #ff8888, #ef4444); }
+  .profile-tier-chip.b  { background: linear-gradient(135deg, #4ad9a3, #10b981); }
+  .profile-tier-chip.c  { background: linear-gradient(135deg, #76b8ff, #3b82f6); }
+  .profile-tier-chip.d  { background: linear-gradient(135deg, #ffaad6, #f472b6); }
+  .xp-bar { background: rgba(255,255,255,0.7); border-radius: 14px; padding: 4px; height: 24px; position: relative; overflow: hidden; border: 2px solid white; max-width: 400px; margin: 0 auto; }
+  .xp-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--pop-purple), var(--pop-pink), var(--pop-hot-pink)); transition: width 0.7s cubic-bezier(0.4, 0.2, 0.2, 1); box-shadow: 0 0 12px rgba(255, 105, 168, 0.5); min-width: 8px; }
+  .xp-text { margin-top: 8px; font-size: 13px; color: var(--text-dark); font-weight: 500; }
+  .profile-menu-btn { position: absolute; top: 14px; right: 14px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.92); border: none; cursor: pointer; font-size: 22px; color: var(--text-dark); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); line-height: 1; letter-spacing: 1px; padding: 0; }
+  .profile-menu-btn:hover { background: white; transform: scale(1.08); }
+  .profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .stat-card { background: white; border-radius: 18px; padding: 18px; text-align: center; box-shadow: 0 8px 20px rgba(139, 92, 246, 0.12); }
+  .stat-num { font-family: 'Bubblegum Sans', cursive; font-size: 36px; color: var(--text-dark); display: block; line-height: 1; }
+  .stat-label { font-size: 12px; color: var(--text-soft); text-transform: uppercase; letter-spacing: 0.8px; }
+  .profile-switcher { display: flex; gap: 10px; flex-wrap: wrap; }
+  .profile-chip { display: flex; align-items: center; gap: 10px; background: white; padding: 8px 16px 8px 8px; border-radius: 30px; border: 2px solid var(--sky-lavender); cursor: pointer; transition: all 0.25s; font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--text-dark); }
+  .profile-chip:hover { transform: translateY(-2px); border-color: var(--pop-purple); }
+  .profile-chip.active { background: linear-gradient(135deg, var(--pop-purple), var(--pop-pink)); color: white; border-color: transparent; box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3); }
+  .profile-chip-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--cloud-white); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+  .profile-chip.add { background: transparent; border: 2px dashed var(--sky-lavender); color: var(--pop-purple); }
+  .trail-section { background: white; border-radius: 20px; padding: 22px 24px; box-shadow: 0 10px 24px rgba(139, 92, 246, 0.12); }
+  .trail-section h3 { font-family: 'Bubblegum Sans', cursive; font-size: 22px; color: var(--text-dark); margin-bottom: 16px; }
+  .badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
+  .badge-tile { background: linear-gradient(180deg, #fff8dc, #ffeaa7); border-radius: 14px; padding: 14px; text-align: center; border: 2px solid #ffd93d; box-shadow: 0 6px 14px rgba(255, 217, 61, 0.3); }
+  .badge-emoji { font-size: 42px; margin-bottom: 6px; }
+  .badge-name { font-weight: 600; color: var(--text-dark); font-size: 13px; }
+  .empty-mini { text-align: center; padding: 16px; color: var(--text-soft); font-size: 14px; }
+  .log-solve-btn { background: linear-gradient(135deg, var(--pop-pink), var(--pop-hot-pink)); color: white; border: none; padding: 8px 16px; border-radius: 14px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 59, 139, 0.35); margin-bottom: 14px; }
+  .solves-list { display: flex; flex-direction: column; gap: 10px; }
+  .solve-row { display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; background: var(--cloud-white); border-radius: 12px; }
+  .solve-tier { width: 36px; height: 36px; border-radius: 50%; color: white; font-family: 'Bubblegum Sans', cursive; font-size: 16px; display: flex; align-items: center; justify-content: center; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+  .solve-tier.ss { background: linear-gradient(135deg, #ff6fa8, #b8a4ff 50%, #76b8ff); }
+  .solve-tier.s  { background: linear-gradient(135deg, #ffe27a, #ffb800); color: var(--text-dark); }
+  .solve-tier.a  { background: linear-gradient(135deg, #ff8888, #ef4444); }
+  .solve-tier.b  { background: linear-gradient(135deg, #4ad9a3, #10b981); }
+  .solve-tier.c  { background: linear-gradient(135deg, #76b8ff, #3b82f6); }
+  .solve-tier.d  { background: linear-gradient(135deg, #ffaad6, #f472b6); }
+  .solve-name { font-weight: 600; color: var(--text-dark); font-size: 14px; }
+  .solve-meta { font-size: 12px; color: var(--text-soft); }
+  .solve-date { font-size: 11.5px; color: var(--text-soft); }
+
+  /* Modals */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(20, 12, 40, 0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.3s; }
+  .modal-overlay.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .story-container { width: min(420px, 92vw); height: min(700px, 88vh); background: linear-gradient(180deg, #ffd1f0, #c8b8ff, #a8d8ff); border-radius: 24px; position: relative; overflow: hidden; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4); }
+  .story-progress { position: absolute; top: 16px; left: 16px; right: 16px; display: flex; gap: 4px; z-index: 10; }
+  .story-progress .bar { flex: 1; height: 3px; background: rgba(255, 255, 255, 0.35); border-radius: 2px; overflow: hidden; }
+  .story-progress .bar .fill { height: 100%; width: 0%; background: white; transition: width 0.1s linear; }
+  .story-progress .bar.done .fill { width: 100%; }
+  .story-close { position: absolute; top: 28px; right: 16px; background: rgba(255, 255, 255, 0.25); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; font-size: 18px; cursor: pointer; z-index: 10; backdrop-filter: blur(6px); }
+  .story-rank-badge { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px); color: white; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; z-index: 5; }
+  .story-content { padding: 110px 32px 40px; text-align: center; height: 100%; display: flex; flex-direction: column; align-items: center; color: white; box-sizing: border-box; }
+  .story-spotlight { display: flex; flex-direction: column; align-items: center; }
+  .story-crown { font-size: 42px; margin-bottom: 6px; }
+  .story-avatar { width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, #ffd1f0, #c8b8ff); border: 5px solid white; margin-bottom: 18px; display: flex; align-items: center; justify-content: center; font-size: 72px; box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25); }
+  .story-name { font-family: 'Bubblegum Sans', cursive; font-size: 32px; margin-bottom: 6px; text-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .story-title { font-size: 18px; background: linear-gradient(135deg, #ffe27a, #ff8a3d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; margin-bottom: 18px; }
+  .story-puzzle { color: white; background: rgba(255,255,255,0.22); padding: 14px 22px; border-radius: 14px; margin-bottom: 14px; backdrop-filter: blur(10px); }
+  .story-tier-chip { display: inline-block; padding: 6px 16px; background: rgba(255,255,255,0.95); color: var(--text-dark); border-radius: 16px; font-weight: 600; font-size: 14px; margin-bottom: 12px; }
+  .story-tier-chip.ss { background: linear-gradient(135deg, #ff6fa8, #b8a4ff 50%, #76b8ff); color: white; }
+  .story-tier-chip.s  { background: linear-gradient(135deg, #ffe27a, #ffb800); }
+  .story-tier-chip.a  { background: linear-gradient(135deg, #ff8888, #ef4444); color: white; }
+  .story-tier-chip.b  { background: linear-gradient(135deg, #4ad9a3, #10b981); color: white; }
+  .story-rank-num { color: white; font-weight: 600; opacity: 0.9; }
+  .story-tap-zone { position: absolute; top: 0; bottom: 0; width: 30%; cursor: pointer; z-index: 6; }
+  .story-tap-zone.left { left: 0; }
+  .story-tap-zone.right { right: 0; }
+  .story-confetti { position: absolute; inset: 0; pointer-events: none; }
+
+  /* Product Story Modal */
+  .product-story-container { width: min(440px, 94vw); height: min(740px, 90vh); background: linear-gradient(180deg, #fffaf5, #fff); border-radius: 24px; position: relative; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.4); }
+  .product-story-container.ss { background: linear-gradient(180deg, #ffd1f0, #c8b8ff 50%, #a8d8ff); }
+  .product-story-container.s  { background: linear-gradient(180deg, #fff4c2, #ffe27a 50%, #ffb800); }
+  .product-story-container.a  { background: linear-gradient(180deg, #ffd1d1, #ff8888 50%, #ef4444); }
+  .product-story-container.b  { background: linear-gradient(180deg, #c5f0de, #4ad9a3 50%, #10b981); }
+  .product-story-container.c  { background: linear-gradient(180deg, #cfe4ff, #76b8ff 50%, #3b82f6); }
+  .product-story-container.d  { background: linear-gradient(180deg, #ffe4f1, #ffaad6 50%, #f472b6); }
+  .product-story-container .story-progress .bar.done .fill { width: 100%; }
+  .product-story-container .story-progress .bar.current .fill { width: 100%; transition: width 0.3s ease; }
+  .product-story-content { padding: 96px 28px 28px; height: 100%; box-sizing: border-box; display: flex; flex-direction: column; color: var(--text-dark); overflow-y: auto; overflow-x: hidden; }
+  .product-hero-banner { aspect-ratio: 1.4 / 1; border-radius: 22px; background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(10px); border: 3px solid white; display: flex; align-items: center; justify-content: center; font-size: 110px; margin-bottom: 18px; position: relative; box-shadow: 0 10px 26px rgba(0,0,0,0.15); }
+  .product-hero-banner .rank-chip { position: absolute; top: 12px; right: 12px; background: white; color: var(--text-dark); padding: 4px 14px; border-radius: 14px; font-family: 'Bubblegum Sans', cursive; font-size: 18px; box-shadow: 0 3px 8px rgba(0,0,0,0.15); }
+  .product-hero-banner .stock-chip { position: absolute; bottom: 12px; left: 12px; background: rgba(43, 33, 71, 0.88); color: white; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; }
+  .product-story-name { font-family: 'Bubblegum Sans', cursive; font-size: 26px; color: white; text-shadow: 0 2px 6px rgba(0,0,0,0.25); margin-bottom: 2px; line-height: 1.1; }
+  .product-story-meta { font-size: 13px; color: rgba(255,255,255,0.92); font-weight: 500; margin-bottom: 12px; text-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+  .product-story-desc { background: rgba(255,255,255,0.92); color: var(--text-dark); padding: 14px 16px; border-radius: 14px; font-size: 13.5px; line-height: 1.5; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+  .product-story-features { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .product-story-features span { background: rgba(255,255,255,0.85); color: var(--text-dark); padding: 5px 12px; border-radius: 12px; font-size: 11.5px; font-weight: 500; }
+  .product-price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; color: white; }
+  .product-price-row .price { font-family: 'Bubblegum Sans', cursive; font-size: 36px; text-shadow: 0 3px 6px rgba(0,0,0,0.25); line-height: 1; }
+  .product-price-row .free-ship { font-size: 12px; font-weight: 500; background: rgba(255,255,255,0.85); color: var(--pop-purple); padding: 4px 10px; border-radius: 10px; }
+  .product-story-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+  .product-story-actions button { padding: 13px 12px; border-radius: 14px; border: none; font-family: 'Fredoka', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
+  .btn-buy-now { background: linear-gradient(135deg, var(--pop-pink), var(--pop-hot-pink)); color: white; box-shadow: 0 6px 16px rgba(255, 59, 139, 0.4); }
+  .btn-buy-now:hover { transform: translateY(-2px); }
+  .btn-add-cart { background: white; color: var(--pop-purple); box-shadow: 0 6px 14px rgba(0,0,0,0.12); }
+  .btn-add-cart:hover { transform: translateY(-2px); }
+  .btn-add-cart.added { background: var(--lama-green); color: white; pointer-events: none; }
+  .product-bottom-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: white; font-size: 12px; font-weight: 500; }
+  .product-bottom-row .wish-btn { background: rgba(255,255,255,0.85); border: none; color: var(--pop-hot-pink); padding: 7px 12px; border-radius: 12px; cursor: pointer; font-family: 'Fredoka', sans-serif; font-size: 12px; font-weight: 600; }
+  .product-bottom-row .position-pill { background: rgba(255,255,255,0.25); backdrop-filter: blur(6px); padding: 5px 12px; border-radius: 12px; font-weight: 600; }
+  .product-story-wrapper { position: relative; display: inline-block; line-height: 0; }
+  .product-story-wrapper .story-nav { position: absolute; top: 240px; transform: translateY(-50%); width: 52px; height: 52px; border-radius: 50%; background: white; color: var(--text-dark); border: none; font-size: 34px; line-height: 1; cursor: pointer; z-index: 12; box-shadow: 0 8px 24px rgba(0,0,0,0.35), 0 0 0 4px rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; transition: transform 0.2s, opacity 0.2s; font-family: 'Bubblegum Sans', cursive; padding: 0 0 4px 0; }
+  .product-story-wrapper .story-nav:hover { transform: translateY(-50%) scale(1.1); }
+  .product-story-wrapper .story-nav:disabled { opacity: 0.35; cursor: not-allowed; transform: translateY(-50%); }
+  .product-story-wrapper .story-nav.prev { left: -26px; padding: 0 4px 4px 0; }
+  .product-story-wrapper .story-nav.next { right: -26px; padding: 0 0 4px 4px; }
+  @media (max-width: 540px) { .product-story-wrapper .story-nav { width: 44px; height: 44px; font-size: 28px; top: 200px; } .product-story-wrapper .story-nav.prev { left: -14px; } .product-story-wrapper .story-nav.next { right: -14px; } }
+
+  .cart-toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(120%); background: var(--text-dark); color: white; padding: 14px 24px; border-radius: 16px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 15px; z-index: 2000; box-shadow: 0 12px 30px rgba(0,0,0,0.3); transition: transform 0.4s cubic-bezier(0.4, 0.2, 0.2, 1); pointer-events: none; }
+  .cart-toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Onboarding + solve + edit modals */
+  .onboard-card, .solve-card { width: min(460px, 94vw); background: white; border-radius: 24px; padding: 36px 32px 32px; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.4); max-height: 90vh; overflow-y: auto; }
+  .onboard-card h2, .solve-card h2 { font-family: 'Bubblegum Sans', cursive; font-size: 26px; color: var(--text-dark); margin-bottom: 8px; text-align: center; }
+  .onboard-card p { color: var(--text-soft); font-size: 14px; margin-bottom: 22px; text-align: center; line-height: 1.5; }
+  .onboard-emoji { font-size: 64px; text-align: center; margin-bottom: 12px; }
+  .avatar-picker { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 8px; }
+  .avatar-picker button { aspect-ratio: 1 / 1; background: var(--cloud-white); border: 3px solid transparent; border-radius: 18px; font-size: 36px; cursor: pointer; transition: all 0.2s; padding: 0; }
+  .avatar-picker button:hover { background: white; transform: scale(1.05); }
+  .avatar-picker button.selected { border-color: var(--pop-purple); background: linear-gradient(135deg, #ffe4f1, #c8b8ff); }
+  .onboard-actions { display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-top: 14px; }
+  /* Info pages */
+  .info-card { background: white; border-radius: 22px; padding: 34px 36px; box-shadow: 0 14px 34px rgba(139, 92, 246, 0.15); max-width: 920px; margin: 0 auto 22px; }
+  .info-card h2 { font-family: 'Bubblegum Sans', cursive; font-size: 28px; color: var(--text-dark); margin-bottom: 12px; }
+  .info-card h3 { font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 18px; color: var(--pop-purple); margin: 18px 0 8px; }
+  .info-card p { color: var(--text-soft); font-size: 15px; line-height: 1.65; margin-bottom: 10px; }
+  .section-title { font-family: 'Bubblegum Sans', cursive; font-size: 28px; color: var(--text-dark); text-align: center; margin: 24px 0 18px; text-shadow: 2px 2px 0 white; }
+  .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; max-width: 980px; margin-left: auto; margin-right: auto; }
+  .value-tile { background: linear-gradient(140deg, #fff5fb, #f3eaff); padding: 22px 18px; border-radius: 16px; text-align: center; border: 2px solid white; }
+  .value-tile .value-emoji { font-size: 38px; margin-bottom: 8px; display: block; }
+  .value-tile h3 { font-family: 'Bubblegum Sans', cursive; font-size: 19px; color: var(--text-dark); margin-bottom: 4px; }
+  .value-tile p { font-size: 13.5px; color: var(--text-soft); line-height: 1.5; }
+  .founder-card { display: grid; grid-template-columns: 110px 1fr; gap: 22px; align-items: center; background: linear-gradient(135deg, #e9f7ff, #f7ecff); padding: 22px; border-radius: 18px; margin: 18px auto 0; max-width: 740px; }
+  .founder-avatar { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, var(--pop-pink), var(--pop-purple)); display: flex; align-items: center; justify-content: center; font-size: 60px; color: white; box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3); }
+  .founder-card h3 { font-family: 'Bubblegum Sans', cursive; font-size: 22px; color: var(--text-dark); margin-bottom: 4px; }
+  .founder-role { font-size: 13px; color: var(--pop-purple); font-weight: 600; margin-bottom: 8px; }
+  .founder-card p { font-size: 14px; color: var(--text-soft); line-height: 1.55; }
+
+  /* FAQ */
+  .faq-search { width: 100%; max-width: 520px; margin: 0 auto 24px; display: block; background: white; border: 2px solid var(--sky-lavender); border-radius: 22px; padding: 12px 18px; font-family: 'Fredoka', sans-serif; font-size: 14.5px; color: var(--text-dark); outline: none; box-shadow: 0 6px 18px rgba(139, 92, 246, 0.12); }
+  .faq-search:focus { border-color: var(--pop-purple); }
+  .faq-list { max-width: 760px; margin: 0 auto; background: white; border-radius: 18px; padding: 12px 22px; box-shadow: 0 14px 34px rgba(139, 92, 246, 0.15); }
+  .faq-item { border-bottom: 1.5px dashed var(--sky-lavender); padding: 4px 0; }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-question { width: 100%; background: transparent; border: none; text-align: left; padding: 16px 4px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 16px; color: var(--text-dark); cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+  .faq-question:hover { color: var(--pop-purple); }
+  .faq-chevron { font-size: 22px; color: var(--pop-purple); flex-shrink: 0; }
+  .faq-answer { padding: 0 4px 16px 4px; color: var(--text-soft); font-size: 14.5px; line-height: 1.6; }
+  .faq-no-match { text-align: center; padding: 30px 12px; color: var(--text-soft); font-size: 14.5px; }
+  .faq-no-match a { color: var(--pop-purple); font-weight: 600; }
+
+  /* Contact */
+  .contact-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 22px; max-width: 980px; margin: 0 auto; }
+  .contact-form-card, .contact-info-card { background: white; border-radius: 22px; padding: 30px 30px; box-shadow: 0 14px 34px rgba(139, 92, 246, 0.15); }
+  .contact-info-card h3 { font-family: 'Bubblegum Sans', cursive; font-size: 24px; color: var(--text-dark); margin-bottom: 16px; }
+  .form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+  .form-row label { font-family: 'Fredoka', sans-serif; font-size: 13px; color: var(--text-dark); font-weight: 600; }
+  .form-row input, .form-row select, .form-row textarea { border: 2px solid var(--sky-lavender); background: var(--cloud-white); border-radius: 12px; padding: 11px 14px; font-family: 'Fredoka', sans-serif; font-size: 14px; color: var(--text-dark); outline: none; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; box-sizing: border-box; }
+  .form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color: var(--pop-purple); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15); }
+  .form-row textarea { resize: vertical; min-height: 110px; }
+  .form-row.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-row.two-col > div { display: flex; flex-direction: column; gap: 6px; }
+  .form-row .error-msg { color: #ef4444; font-size: 12px; margin-top: 4px; display: none; }
+  .form-row.error .error-msg { display: block; }
+  .form-row.error input, .form-row.error select, .form-row.error textarea { border-color: #ef4444; }
+  .contact-line { display: block; padding: 10px 0; border-bottom: 1px dashed var(--sky-lavender); color: var(--text-dark); font-size: 14px; line-height: 1.55; }
+  .contact-line:last-of-type { border-bottom: none; }
+  .contact-line.muted { color: var(--text-soft); border-bottom: none; padding-top: 14px; }
+  .contact-line strong { color: var(--pop-purple); margin-right: 6px; }
+  .social-row { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .social-pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 20px; background: linear-gradient(135deg, #fff5fb, #ece6ff); color: var(--pop-purple); font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 13px; text-decoration: none; border: 2px solid white; transition: transform 0.2s; }
+  .social-pill:hover { transform: translateY(-2px); }
+  .contact-success { display: block; text-align: center; padding: 50px 22px; background: linear-gradient(135deg, #fff5fb, #ece6ff); border-radius: 18px; max-width: 600px; margin: 0 auto; }
+  .big-check { width: 92px; height: 92px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #34d399); color: white; font-size: 52px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; box-shadow: 0 12px 26px rgba(16, 185, 129, 0.35); }
+  .contact-success h2 { font-family: 'Bubblegum Sans', cursive; font-size: 28px; color: var(--text-dark); margin-bottom: 6px; }
+  .contact-success p { color: var(--text-soft); margin-bottom: 18px; font-size: 14.5px; }
+
+  /* Shipping */
+  .shipping-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 22px; max-width: 980px; margin-left: auto; margin-right: auto; }
+  .shipping-tile { background: linear-gradient(140deg, #e9f7ff, #f3eaff); padding: 22px 18px; border-radius: 18px; text-align: center; border: 2px solid white; }
+  .shipping-emoji { font-size: 42px; display: block; margin-bottom: 6px; }
+  .shipping-tile h3 { font-family: 'Bubblegum Sans', cursive; font-size: 19px; color: var(--text-dark); margin-bottom: 4px; }
+  .shipping-tile p { font-size: 13.5px; color: var(--text-soft); line-height: 1.45; }
+  .shipping-table { width: 100%; border-collapse: collapse; margin: 12px 0 16px; border-radius: 14px; overflow: hidden; box-shadow: 0 6px 16px rgba(139, 92, 246, 0.1); }
+  .shipping-table th, .shipping-table td { padding: 12px 16px; text-align: left; font-size: 14px; }
+  .shipping-table th { background: linear-gradient(135deg, var(--pop-purple), var(--pop-pink)); color: white; font-family: 'Fredoka', sans-serif; font-weight: 600; }
+  .shipping-table tbody tr { background: white; }
+  .shipping-table tbody tr:nth-child(even) { background: #faf6ff; }
+  .shipping-table td { color: var(--text-dark); }
+
+  /* Checkout */
+  .checkout-layout { display: grid; grid-template-columns: 1fr 360px; gap: 28px; align-items: start; max-width: 1100px; margin: 0 auto; }
+  .checkout-stepper { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 26px; flex-wrap: wrap; }
+  .step-dot { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: white; border-radius: 22px; box-shadow: 0 6px 14px rgba(139, 92, 246, 0.12); font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 13.5px; color: var(--text-soft); border: 2px solid transparent; transition: all 0.25s; }
+  .step-dot::before { content: attr(data-step); width: 24px; height: 24px; border-radius: 50%; background: var(--sky-lavender); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .step-dot.active { color: var(--pop-purple); border-color: var(--pop-purple); }
+  .step-dot.active::before { background: linear-gradient(135deg, var(--pop-purple), var(--pop-pink)); }
+  .step-dot.complete::before { background: #10b981; content: '✓'; }
+  .step-connector { width: 28px; height: 2px; background: var(--sky-lavender); border-radius: 2px; }
+  .checkout-card { background: white; border-radius: 22px; padding: 30px 32px; box-shadow: 0 14px 34px rgba(139, 92, 246, 0.15); }
+  .checkout-card h3 { font-family: 'Bubblegum Sans', cursive; font-size: 26px; color: var(--text-dark); margin-bottom: 18px; }
+  .checkout-step { display: none; }
+  .checkout-step.active { display: block; }
+  .checkout-actions { display: flex; justify-content: space-between; gap: 14px; margin-top: 22px; padding-top: 18px; border-top: 1.5px dashed var(--sky-lavender); }
+  .btn-secondary { background: white; color: var(--pop-purple); border: 2px solid var(--sky-lavender); border-radius: 22px; padding: 11px 22px; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-secondary:hover { border-color: var(--pop-purple); background: #faf6ff; }
+  .pay-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 22px; }
+  .pay-option { border: 2px solid var(--sky-lavender); background: white; border-radius: 16px; padding: 18px 12px; text-align: center; cursor: pointer; transition: all 0.2s; font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--text-dark); font-size: 13.5px; }
+  .pay-option:hover { border-color: var(--pop-purple); }
+  .pay-option.selected { border-color: var(--pop-purple); background: linear-gradient(135deg, #fff5fb, #ece6ff); box-shadow: 0 8px 18px rgba(139, 92, 246, 0.18); }
+  .pay-emoji { font-size: 28px; display: block; margin-bottom: 4px; }
+  .review-block { background: var(--cloud-white); border-radius: 14px; padding: 16px 18px; margin-bottom: 14px; }
+  .review-block h4 { font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--pop-purple); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .review-item { font-size: 14px; color: var(--text-dark); line-height: 1.5; padding: 4px 0; }
+  .edit-link { font-size: 12px; color: var(--pop-purple); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: inherit; padding: 4px 0; margin-top: 6px; }
+  .mini-summary { background: white; border-radius: 20px; padding: 24px 22px; box-shadow: 0 14px 30px rgba(139, 92, 246, 0.18); position: sticky; top: 200px; }
+  .mini-summary h3 { font-family: 'Bubblegum Sans', cursive; font-size: 22px; color: var(--text-dark); margin-bottom: 14px; }
+  .mini-item { display: grid; grid-template-columns: 40px 1fr auto; gap: 10px; align-items: center; padding: 6px 0; font-size: 13px; }
+  .mini-emoji { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .mini-name { color: var(--text-dark); font-weight: 500; }
+  .mini-name small { color: var(--text-soft); }
+  .mini-price { font-family: 'Bubblegum Sans', cursive; color: var(--pop-hot-pink); font-size: 15px; }
+
+  /* Success */
+  .success-hero { text-align: center; background: linear-gradient(140deg, #fff5fb, #ece6ff, #e9f7ff); border-radius: 24px; padding: 50px 28px 44px; max-width: 680px; margin: 0 auto 22px; box-shadow: 0 18px 40px rgba(139, 92, 246, 0.18); }
+  .success-hero h1 { font-family: 'Bubblegum Sans', cursive; font-size: 42px; color: var(--text-dark); margin-bottom: 6px; }
+  .success-hero p { color: var(--text-soft); font-size: 15px; max-width: 460px; margin: 0 auto 18px; line-height: 1.55; }
+  .success-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .success-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 680px; margin: 0 auto; }
+  .success-detail-card { background: white; border-radius: 18px; padding: 22px; box-shadow: 0 10px 26px rgba(139, 92, 246, 0.15); text-align: center; }
+  .success-detail-card strong { display: block; font-family: 'Fredoka', sans-serif; font-weight: 600; color: var(--pop-purple); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .success-detail-card span { font-size: 14px; color: var(--text-dark); line-height: 1.55; }
+
+  @media (max-width: 768px) {
+    header { grid-template-columns: auto auto; grid-template-rows: auto auto; gap: 12px 14px; justify-content: space-between; }
+    .logo-img { height: 64px; }
+    .search-bar { grid-column: 1 / -1; grid-row: 2; max-width: none; justify-self: stretch; }
+    .header-actions { justify-self: end; }
+    .lama-balloon-wrap { width: 110px; right: 2%; top: 220px; }
+    .hero-welcome-bubble { display: none; }
+    .hero-slider { min-height: 460px; }
+    .hero-slide { padding: 40px 24px 60px; }
+    .trust-row { grid-template-columns: repeat(2, 1fr); }
+    .section-header h2 { font-size: 28px; }
+    .sky-trail-section { padding: 36px 20px; }
+    .tier-ladder { flex-wrap: wrap; gap: 20px; }
+    .tier-step { flex-basis: 30%; }
+    .values-grid, .shipping-grid { grid-template-columns: 1fr; }
+    .contact-grid, .checkout-layout { grid-template-columns: 1fr; }
+    .mini-summary { position: static; }
+    .pay-options { grid-template-columns: 1fr; }
+    .success-details { grid-template-columns: 1fr; }
+    .founder-card { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+    .form-row.two-col { grid-template-columns: 1fr; }
+    .info-card, .checkout-card { padding: 24px 22px; }
+    .profile-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+  <!-- Sparkle overlay -->
+  <div class="sparkle-layer" aria-hidden="true">
+    <span class="sparkle s1">✦</span><span class="sparkle s2">✧</span><span class="sparkle s3">✦</span>
+    <span class="sparkle s4">✧</span><span class="sparkle s5">✦</span><span class="sparkle s6">✧</span>
+  </div>
+
+  <!-- Mama Lama balloon -->
+  <div class="lama-balloon-wrap" id="lamaBalloon" aria-hidden="true">
+    <img src="balloonairtrans.png" alt="" class="balloon-img" />
+    <div class="balloon-mascot">
+      <div class="mascot-inner">
+        <img src="mascot-body.png" alt="Mama Lama" class="mascot-body" />
+        <img src="mascot-arm.png" alt="" class="mascot-arm" aria-hidden="true" />
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-welcome-bubble" id="welcomeBubble">Hi friend! Ready to play and learn? 🌟</div>
+
+  <header>
+    <img src="logo.png" alt="MamaLama" class="logo-img" id="navLogo" />
+    <div class="search-bar">
+      <input type="text" placeholder="Search puzzles, toys, books..." />
+      <button class="search-btn" aria-label="Search">🔍</button>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn trophy-btn" id="trophyBtn" title="Top 10 Sky Trail Legends">
+        🏆<span class="trophy-tag">#47</span>
+      </button>
+      <button class="icon-btn" id="navTrail" title="My Sky Trail">
+        <span style="font-size:26px;">👤</span><span>Trail</span>
+      </button>
+      <button class="icon-btn wishlist-wrap" id="navWishlist" title="Wishlist">
+        <img src="wishlist-heart.png" alt="Wishlist" class="icon-img" />
+        <span class="wish-count hidden" id="wishCountBadge">0</span>
+        <span>Wishlist</span>
+      </button>
+      <button class="icon-btn cart-wrap" id="navCart" title="Cart">
+        <img src="cart-icon.png" alt="Cart" class="icon-img" />
+        <span class="cart-count">0</span>
+        <span>Cart</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="category-nav">
+    <button class="cat-chip active">🧩 Puzzles</button>
+    <button class="cat-chip">🎲 Games</button>
+    <button class="cat-chip">🚀 STEM Kits</button>
+    <button class="cat-chip">👶 Baby Brain</button>
+    <button class="cat-chip">🎁 Bundles</button>
+  </nav>
+
+  <main>
+    <div class="view view-home active" id="viewHome">
+      <section class="hero">
+        <div class="hero-slider" id="heroSlider">
+          <div class="hero-progress" id="heroProgress"></div>
+
+          <div class="hero-slide slide-1 active" data-slide="0">
+            <div class="hero-tagline">★ A magical learning adventure ★</div>
+            <h1>Where Little Minds<br/><span class="accent">Take Flight</span></h1>
+            <p>Puzzles, toys &amp; treasures that grow tiny thinkers into Galaxy Brains. Curated for ages 2–8, loved by mamas.</p>
+            <button class="btn-primary" id="heroStartTrailBtn">Start the Sky Trail →</button>
+          </div>
+
+          <div class="hero-slide slide-2" data-slide="1">
+            <div class="hero-tagline">★ This week's speed solvers ★</div>
+            <h2>Top 3 Sky Trail Champions 🏆</h2>
+            <div class="podium">
+              <div class="podium-spot p2">
+                <span class="podium-medal">🥈</span><span class="podium-tier-chip s">S</span>
+                <div class="podium-avatar">👧🏼</div>
+                <div class="podium-name">Maya</div>
+                <div class="podium-puzzle">Cosmic Logic Cube<br/>250 pieces</div>
+                <div class="podium-time">⏱ 12m 04s</div>
+              </div>
+              <div class="podium-spot p1">
+                <span class="podium-medal">🥇</span><span class="podium-tier-chip ss">SS</span>
+                <div class="podium-avatar">👦🏽</div>
+                <div class="podium-name">Aarav</div>
+                <div class="podium-puzzle">Galactic Maze Master<br/>200 pieces</div>
+                <div class="podium-time">⏱ 9m 47s</div>
+              </div>
+              <div class="podium-spot p3">
+                <span class="podium-medal">🥉</span><span class="podium-tier-chip ss">SS</span>
+                <div class="podium-avatar">🧒🏻</div>
+                <div class="podium-name">Liam</div>
+                <div class="podium-puzzle">Atlas of Riddles<br/>108-page set</div>
+                <div class="podium-time">⏱ 14m 22s</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-dots" id="heroDots">
+            <button class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
+            <button class="hero-dot" data-slide="1" aria-label="Slide 2"></button>
+          </div>
+        </div>
+
+        <div class="trust-row">
+          <div class="trust-card c1"><div class="trust-icon">🚚</div><div class="trust-text"><strong>Free Shipping</strong><small>On orders over $40</small></div></div>
+          <div class="trust-card c2"><div class="trust-icon">🛡️</div><div class="trust-text"><strong>Safe &amp; Tested</strong><small>Non-toxic materials</small></div></div>
+          <div class="trust-card c3"><div class="trust-icon">🧠</div><div class="trust-text"><strong>Learning First</strong><small>Designed by educators</small></div></div>
+          <div class="trust-card c4"><div class="trust-icon">💖</div><div class="trust-text"><strong>Mama Approved</strong><small>10,000+ happy families</small></div></div>
+        </div>
+      </section>
+
+      <section class="spaced">
+        <div class="section-header">
+          <h2>Popular Puzzles 🧩</h2>
+          <a href="#">View All →</a>
+        </div>
+        <div class="tier-banner-grid" id="tierBannerGrid">
+          <div class="tier-banner ss" data-tier="SS"><div class="tier-banner-inner">
+            <div class="tier-banner-front">
+              <div class="rank-emoji">🌌</div><div class="rank-letter">SS</div>
+              <div><div class="rank-title">Galaxy Brain</div><div class="tap-hint">Tap to flip ✨</div></div>
+            </div>
+            <div class="tier-banner-back"><div class="back-body">
+              <div class="back-rank">SS Tier</div><div class="back-title">Galaxy-Brain Mythical</div>
+              <div class="back-desc">Built for puzzle wizards in tiny bodies. Our team tried these for 3 weekends and still hasn't finished.</div>
+              <div class="back-rewards">🏆 <strong>500 XP</strong> · Mythical crown · Hall of Fame</div>
+              <div class="back-challenge">"Even WE couldn't solve this. Can you?" 👀</div>
+            </div><button class="see-products-btn" data-tier="SS">List Products →</button></div>
+          </div></div>
+          <div class="tier-banner s" data-tier="S"><div class="tier-banner-inner">
+            <div class="tier-banner-front">
+              <div class="rank-emoji">👑</div><div class="rank-letter">S</div>
+              <div><div class="rank-title">Prophet of Puzzles</div><div class="tap-hint">Tap to flip ✨</div></div>
+            </div>
+            <div class="tier-banner-back"><div class="back-body">
+              <div class="back-rank">S Tier</div><div class="back-title">Legendary Brain Boss</div>
+              <div class="back-desc">For tiny geniuses who eat sudoku for breakfast. Most adults need help — yes, including dad.</div>
+              <div class="back-rewards">🥇 <strong>300 XP</strong> · Golden badge · Legendary spot</div>
+              <div class="back-challenge">"If you finish this, we'll bow down." 🙇</div>
+            </div><button class="see-products-btn" data-tier="S">List Products →</button></div>
+          </div></div>
+          <div class="tier-banner a" data-tier="A"><div class="tier-banner-inner">
+            <div class="tier-banner-front">
+              <div class="rank-emoji">🔥</div><div class="rank-letter">A</div>
+              <div><div class="rank-title">Master at Work</div><div class="tap-hint">Tap to flip ✨</div></div>
+            </div>
+            <div class="tier-banner-back"><div class="back-body">
+              <div class="back-rank">A Tier</div><div class="back-title">Sweat-Worthy Expert</div>
+              <div class="back-desc">You'll sweat, mutter under your breath, then do a victory dance in the living room.</div>
+              <div class="back-rewards">🔥 <strong>200 XP</strong> · Expert badge · Trail boost</div>
+              <div class="back-challenge">"Snacks recommended. Patience required." 😤</div>
+            </div><button class="see-products-btn" data-tier="A">List Products →</button></div>
+          </div></div>
+          <div class="tier-banner b" data-tier="B"><div class="tier-banner-inner">
+            <div class="tier-banner-front">
+              <div class="rank-emoji">🌈</div><div class="rank-letter">B</div>
+              <div><div class="rank-title">Puzzle Pro</div><div class="tap-hint">Tap to flip ✨</div></div>
+            </div>
+            <div class="tier-banner-back"><div class="back-body">
+              <div class="back-rank">B Tier</div><div class="back-title">Confident Solver</div>
+              <div class="back-desc">Solid challenge. The kind that makes a kid feel SO smart when it clicks. (And it WILL click.)</div>
+              <div class="back-rewards">⭐ <strong>120 XP</strong> · Pro badge · Streak bonus</div>
+              <div class="back-challenge">"Just hard enough to feel like a hero." 💪</div>
+            </div><button class="see-products-btn" data-tier="B">List Products →</button></div>
+          </div></div>
+          <div class="tier-banner c" data-tier="C"><div class="tier-banner-inner">
+            <div class="tier-banner-front">
+              <div class="rank-emoji">🧠</div><div class="rank-letter">C</div>
+              <div><div class="rank-title">Clever Cadet</div><div class="tap-hint">Tap to flip ✨</div></div>
+            </div>
+            <div class="tier-banner-back"><div class="back-body">
+              <div class="back-rank">C Tier</div><div class="back-title">The Sweet Spot</div>
+              <div class="back-desc">Just enough wiggle in the brain to feel triumphant. Perfect for kids stepping up.</div>
+              <div class="back-rewards">💫 <strong>60 XP</strong> · Cadet badge · Daily streak</div>
+              <div class="back-challenge">"You got this. Probably faster than mum." 😉</div>
+            </div><button class="see-products-btn" data-tier="C">List Products →</button></div>
+          </div></div>
+          <div class="tier-banner d" data-tier="D"><div class="tier-banner-inner">
+            <div class="tier-banner-front">
+              <div class="rank-emoji">🧸</div><div class="rank-letter">D</div>
+              <div><div class="rank-title">Tiny Thinker</div><div class="tap-hint">Tap to flip ✨</div></div>
+            </div>
+            <div class="tier-banner-back"><div class="back-body">
+              <div class="back-rank">D Tier</div><div class="back-title">First Taste of Victory</div>
+              <div class="back-desc">Chunky pieces. Big smiles. Zero tears. Where the puzzle love starts.</div>
+              <div class="back-rewards">🌟 <strong>30 XP</strong> · Starter sticker · First-win medal</div>
+              <div class="back-challenge">"Tiny hands. Huge wins." 🎉</div>
+            </div><button class="see-products-btn" data-tier="D">List Products →</button></div>
+          </div></div>
+        </div>
+      </section>
+
+      <section class="sky-trail-section">
+        <h2>Climb Your Sky Trail 🌈</h2>
+        <p class="subtitle">Every little Llama earns titles, unlocks rewards, and reaches for the Cloud Castle.</p>
+        <div class="tier-ladder">
+          <div class="tier-step d"><div class="step-circle">D</div><div class="tier-label"><strong>Tiny Thinker</strong>Ages 2–3</div></div>
+          <div class="tier-step c"><div class="step-circle">C</div><div class="tier-label"><strong>Clever Cadet</strong>Ages 3–5</div></div>
+          <div class="tier-step b"><div class="step-circle">B</div><div class="tier-label"><strong>Puzzle Pro</strong>Ages 4–6</div></div>
+          <div class="tier-step a"><div class="step-circle">A</div><div class="tier-label"><strong>Master at Work</strong>Ages 6–8</div></div>
+          <div class="tier-step s"><div class="step-circle">S</div><div class="tier-label"><strong>Prophet of Puzzles</strong>Legend</div></div>
+        </div>
+        <div class="trail-cta">
+          <button class="btn-primary" id="discoverTrailBtn">Discover My Trail ✨</button>
+        </div>
+      </section>
+
+      <section class="leaderboard-section">
+        <div class="leaderboard-header">
+          <h2>🏆 Sky Trail Leaderboard</h2>
+          <p>This week's brainiest Llamas. Could your little one be next?</p>
+        </div>
+        <div class="leaderboard-list" id="leaderboardList"></div>
+      </section>
+    </div>
+    <div class="view view-cart" id="viewCart">
+      <section class="page-section">
+        <a href="#home" class="back-home-link">← Back to Home</a>
+        <div class="page-header">
+          <h1>Your Cart 🛒</h1>
+          <p id="cartSummaryText">0 items in your cart</p>
+        </div>
+        <div class="cart-layout" id="cartLayout">
+          <div class="cart-items" id="cartItems"></div>
+          <aside class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row"><span>Subtotal</span><span id="cartSubtotal">$0.00</span></div>
+            <div class="summary-row"><span>Shipping</span><span id="cartShipping">Free</span></div>
+            <div class="summary-row"><span>Estimated tax</span><span id="cartTax">$0.00</span></div>
+            <div class="summary-row total"><span>Total</span><span id="cartTotal">$0.00</span></div>
+            <button class="btn-primary checkout-btn" id="checkoutBtn">Checkout →</button>
+            <p class="trust-note">🔒 Secure checkout · 🚚 Free shipping over $40 · ↩️ 30-day returns</p>
+            <a href="#home" class="continue-shopping">← Continue shopping</a>
+          </aside>
+        </div>
+        <div class="empty-state" id="cartEmpty">
+          <div class="empty-emoji">🛒</div>
+          <h2>Your cart is empty!</h2>
+          <p>Tap any tier banner on the home page to start your Sky Trail adventure.</p>
+          <a href="#home" class="btn-primary">Shop Puzzles →</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="view view-wishlist" id="viewWishlist">
+      <section class="page-section">
+        <a href="#home" class="back-home-link">← Back to Home</a>
+        <div class="page-header">
+          <h1>Your Wishlist 💖</h1>
+          <p id="wishlistSummaryText">Puzzles you've saved for the perfect moment.</p>
+        </div>
+        <div class="wishlist-grid" id="wishlistGrid"></div>
+        <div class="empty-state" id="wishlistEmpty">
+          <div class="empty-emoji">💖</div>
+          <h2>Your wishlist is empty!</h2>
+          <p>Tap the ♡ button on any puzzle to save it for later.</p>
+          <a href="#home" class="btn-primary">Browse Puzzles →</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="view view-trail" id="viewTrail">
+      <section class="page-section">
+        <a href="#home" class="back-home-link">← Back to Home</a>
+        <div class="page-header">
+          <h1>My Sky Trail 🌈</h1>
+          <p>Profiles, badges, and XP for every little Llama on the adventure.</p>
+        </div>
+        <div class="trail-empty" id="trailEmpty" style="display:none;">
+          <div class="empty-emoji">🦙</div>
+          <h2>Start your Sky Trail!</h2>
+          <p>Create a profile for your little one and watch them climb from Tiny Thinker to Galaxy Brain.</p>
+          <button class="btn-primary" id="startOnboardBtn">Create First Profile →</button>
+        </div>
+        <div class="trail-dashboard" id="trailDashboard" style="display:none;">
+          <div class="profile-hero" id="profileHero"></div>
+          <div class="profile-stats" id="profileStats"></div>
+          <div class="profile-switcher" id="profileSwitcher"></div>
+          <div class="trail-section">
+            <h3>🏆 Badges Earned</h3>
+            <div class="badge-grid" id="badgeGrid"></div>
+          </div>
+          <div class="trail-section">
+            <h3>🧩 Recent Solves</h3>
+            <button class="btn-primary log-solve-btn" id="logSolveBtn">+ Log a Solve</button>
+            <div class="solves-list" id="solvesList"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="view view-about" id="viewAbout">
+      <section class="page-section">
+        <a href="#home" class="back-home-link">← Back to Home</a>
+        <div class="page-header"><h1>About MamaLama 🦙</h1><p>A mama, a teacher, and a llama walk into a studio…</p></div>
+        <div class="info-card">
+          <h2>The story</h2>
+          <p>MamaLama started on a kitchen table in Portland — a mama, a teacher, and a stack of puzzle prototypes that the kids couldn't put down. What began as a side project for our own little ones grew into a small studio making puzzles, toys and books we'd be proud to gift.</p>
+          <p>Every product is designed to grow with your child — chunky pieces for tiny fingers, mythical mind-benders for galaxy brains. We test everything ourselves. If our kids don't love it, it doesn't ship.</p>
+        </div>
+        <h2 class="section-title">What we care about</h2>
+        <div class="values-grid">
+          <div class="value-tile"><div class="value-emoji">🌱</div><h3>Made to Last</h3><p>Heirloom-quality materials. The kind your kids hand down.</p></div>
+          <div class="value-tile"><div class="value-emoji">🧠</div><h3>Brain First</h3><p>Every product is vetted by educators. Play that grows minds.</p></div>
+          <div class="value-tile"><div class="value-emoji">💜</div><h3>Family Owned</h3><p>One mama, one teacher, one studio. No corporate parent.</p></div>
+          <div class="value-tile"><div class="value-emoji">🎨</div><h3>Art You'll Frame</h3><p>Original illustrations from working children's book artists.</p></div>
+          <div class="value-tile"><div class="value-emoji">🏝️</div><h3>Slow &amp; Cozy</h3><p>No 12 launches a year. Small batches, done with care.</p></div>
+          <div class="value-tile"><div class="value-emoji">✨</div><h3>Gamified Growth</h3><p>Sky Trail turns progress into something to feel proud of.</p></div>
+        </div>
+        <h2 class="section-title">Meet the founder</h2>
+        <div class="founder-card">
+          <div class="founder-avatar">🦙</div>
+          <div><h3>Lila Marquez</h3><p class="founder-role">Founder, Mama, Chief Puzzle Officer</p><p>Former kindergarten teacher turned toy designer. Lives in Portland with two kids, one llama-loving husband, and far too many half-built prototypes on the kitchen table.</p></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="view view-faq" id="viewFaq">
+      <section class="page-section">
+        <a href="#home" class="back-home-link">← Back to Home</a>
+        <div class="page-header"><h1>Help &amp; FAQ ❓</h1><p>The answers to almost everything.</p></div>
+        <input type="text" class="faq-search" id="faqSearch" placeholder="Search the FAQ..." />
+        <div class="faq-list" id="faqList"></div>
+        <div class="faq-no-match" id="faqNoMatch" style="display:none;">No matching questions — try different words, or <a href="#contact">ask us directly</a>.</div>
+      </section>
+    </div>
+
+    <div class="view view-contact" id="viewContact">
+      <section class="page-section">
+        <a href="#home" class="back-home-link">← Back to Home</a>
+        <div class="page-header"><h1>Get in touch 💌</h1><p>A mama, a teacher, and a friendly llama are standing by.</p></div>
+        <div class="contact-grid">
+          <form class="contact-form-card" id="contactForm" novalidate>
+            <div class="form-row"><label>Your name</label><input type="text" id="cName" /><small class="error-msg"></small></div>
+            <div class="form-row"><label>Email</label><input type="email" id="cEmail" /><small class="error-msg"></small></div>
+            <div class="form-row"><label>What's this about?</label>
+              <select id="cTopic"><option>Order help</option><option>Missing piece</option><option>Returns</option><option>Wholesale</option><option>Press</option><option>Something else</option></select>
+            </div>
+            <div class="form-row"><label>Message</label><textarea rows="6" id="cMessage"></textarea><small class="error-msg"></small></div>
+            <button type="submit" class="btn-primary">Send message →</button>
+          </form>
+          <aside class="contact-info-card">
+            <h3>Other ways to reach us</h3>
+            <div class="contact-line"><strong>Email:</strong> hello@mamalama.shop</div>
+            <div class="contact-line"><strong>Phone:</strong> +1 (555) 626-2552</div>
+            <div class="contact-line"><strong>Studio:</strong> 142 Cloud Lane,<br/>Portland, OR 97201</div>
+            <div class="contact-line muted">Most messages get a reply within 24 hours.</div>
+            <div class="social-row"><a href="#" class="social-pill">Instagram</a><a href="#" class="social-pill">TikTok</a><a href="#" class="social-pill">Pinterest</a></div>
+          </aside>
+        </div>
+        <div class="contact-success" id="contactSuccess" style="display:none;">
+          <div class="big-check">✓</div>
+          <h2>Thanks! We've got your message</h2>
+          <p>Most replies go out within 24 hours, often much sooner.</p>
+          <button class="btn-primary" id="contactAgainBtn">Send another →</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="view view-shipping" id="viewShipping">
+      <section class="page-section">
+        <a href="#home" class="back-home-link">← Back to Home</a>
+        <div class="page-header"><h1>Shipping &amp; Returns 📦</h1><p>Fast, free over $40, easy returns.</p></div>
+        <div class="shipping-grid">
+          <div class="shipping-tile"><div class="shipping-emoji">🚚</div><h3>Fast shipping</h3><p>Ships in 1–2 business days.</p></div>
+          <div class="shipping-tile"><div class="shipping-emoji">🎁</div><h3>Free over $40</h3><p>Standard shipping on us.</p></div>
+          <div class="shipping-tile"><div class="shipping-emoji">↩️</div><h3>30-day returns</h3><p>Send it back, full refund.</p></div>
+        </div>
+        <div class="info-card">
+          <h2>Shipping rates</h2>
+          <table class="shipping-table">
+            <thead><tr><th>Method</th><th>ETA</th><th>Cost</th></tr></thead>
+            <tbody>
+              <tr><td>Standard (US)</td><td>3–5 business days</td><td>$5.99 — FREE over $40</td></tr>
+              <tr><td>Express (US)</td><td>Overnight by 2pm</td><td>$14.99</td></tr>
+              <tr><td>Canada</td><td>5–10 business days</td><td>$12.99</td></tr>
+              <tr><td>International</td><td>7–14 business days</td><td>$24.99</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="info-card">
+          <h2>Returns &amp; refunds</h2>
+          <p>We offer a no-questions-asked 30-day return window. Drop us a note at <strong>returns@mamalama.shop</strong> with your order number, and we'll send a prepaid label.</p>
+          <p>Refunds land in 3–5 business days on your original payment method once we receive the return. Damaged items? We replace them, no return needed.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="view view-checkout" id="viewCheckout">
+      <section class="page-section">
+        <a href="#cart" class="back-home-link">← Back to Cart</a>
+        <div class="page-header"><h1>Checkout 💳</h1></div>
+        <div class="checkout-layout">
+          <div>
+            <div class="checkout-stepper" id="checkoutStepper">
+              <div class="step-dot active" data-step="1">Shipping</div>
+              <div class="step-connector"></div>
+              <div class="step-dot" data-step="2">Payment</div>
+              <div class="step-connector"></div>
+              <div class="step-dot" data-step="3">Review</div>
+            </div>
+            <div class="checkout-card checkout-step active" id="checkoutStep1">
+              <h3>Shipping address</h3>
+              <div class="form-row two-col">
+                <div><label>First name</label><input id="shFirst" /></div>
+                <div><label>Last name</label><input id="shLast" /></div>
+              </div>
+              <div class="form-row"><label>Email</label><input id="shEmail" type="email" /></div>
+              <div class="form-row"><label>Address</label><input id="shAddress" /></div>
+              <div class="form-row two-col">
+                <div><label>City</label><input id="shCity" /></div>
+                <div><label>State / Region</label><input id="shState" /></div>
+              </div>
+              <div class="form-row two-col">
+                <div><label>ZIP / Postal</label><input id="shZip" /></div>
+                <div><label>Country</label>
+                  <select id="shCountry"><option>United States</option><option>Canada</option><option>India</option><option>United Kingdom</option><option>Other</option></select>
+                </div>
+              </div>
+              <div class="checkout-actions">
+                <span></span>
+                <button class="btn-primary" id="toStep2Btn">Continue to Payment →</button>
+              </div>
+            </div>
+            <div class="checkout-card checkout-step" id="checkoutStep2">
+              <h3>Payment method</h3>
+              <div class="pay-options">
+                <button class="pay-option selected" data-method="card"><span class="pay-emoji">💳</span>Card</button>
+                <button class="pay-option" data-method="paypal"><span class="pay-emoji">🅿️</span>PayPal</button>
+                <button class="pay-option" data-method="apple"><span class="pay-emoji">🍎</span>Apple Pay</button>
+              </div>
+              <div class="form-row"><label>Cardholder name</label><input id="payName" /></div>
+              <div class="form-row"><label>Card number</label><input id="payCard" placeholder="1234 5678 9012 3456" inputmode="numeric" /></div>
+              <div class="form-row two-col">
+                <div><label>Expiry</label><input id="payExp" placeholder="MM/YY" inputmode="numeric" /></div>
+                <div><label>CVC</label><input id="payCvc" placeholder="123" inputmode="numeric" /></div>
+              </div>
+              <div class="checkout-actions">
+                <button class="btn-secondary" data-back-step="1">← Back</button>
+                <button class="btn-primary" id="toStep3Btn">Review Order →</button>
+              </div>
+            </div>
+            <div class="checkout-card checkout-step" id="checkoutStep3">
+              <h3>Review &amp; place order</h3>
+              <div class="review-block" id="reviewAddress"></div>
+              <div class="review-block" id="reviewPayment"></div>
+              <div class="review-block" id="reviewItems"></div>
+              <div class="checkout-actions">
+                <button class="btn-secondary" data-back-step="2">← Back</button>
+                <button class="btn-primary" id="placeOrderBtn">Place Order ✨</button>
+              </div>
+            </div>
+          </div>
+          <aside class="mini-summary" id="miniSummary"></aside>
+        </div>
+      </section>
+    </div>
+
+    <div class="view view-success" id="viewSuccess">
+      <section class="page-section">
+        <div class="success-hero">
+          <div class="big-check">✓</div>
+          <h1>Order placed!</h1>
+          <p>Order <strong id="successOrderNum">#ML-000000</strong> · A confirmation email is on its way.</p>
+          <div class="success-actions">
+            <a href="#trail" class="btn-primary">See my Sky Trail →</a>
+            <a href="#home" class="btn-secondary">Keep shopping</a>
+          </div>
+        </div>
+        <div class="success-details">
+          <div class="success-detail-card"><strong>Estimated arrival</strong><span id="successEta">—</span></div>
+          <div class="success-detail-card"><strong>Items</strong><span id="successItems">0 items</span></div>
+          <div class="success-detail-card"><strong>Total</strong><span id="successTotal">$0.00</span></div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+  <footer class="island-footer">
+    <div class="island-content">
+      <h3>Welcome to the Island! 🏝️</h3>
+      <p>Mama Lama has landed. Come say hello — we'd love to hear from you.</p>
+      <div class="footer-links">
+        <a href="#about">About MamaLama</a>
+        <a href="#contact">Contact</a>
+        <a href="#faq">Help &amp; FAQ</a>
+        <a href="#shipping">Shipping &amp; Returns</a>
+        <a href="#faq">Privacy</a>
+      </div>
+      <div class="footer-copy">© 2026 MamaLama · A mama, a teacher, a friend 💜</div>
+    </div>
+  </footer>
+
+  <!-- Leaderboard Story Modal -->
+  <div class="modal-overlay" id="storyModal">
+    <div class="story-container">
+      <div class="story-progress" id="storyProgress"></div>
+      <button class="story-close" id="storyClose">✕</button>
+      <div class="story-rank-badge">Sky Trail Legends · This Week</div>
+      <div class="story-content" id="storyContent"></div>
+      <div class="story-tap-zone left" id="tapLeft"></div>
+      <div class="story-tap-zone right" id="tapRight"></div>
+      <canvas class="story-confetti" id="storyConfetti"></canvas>
+    </div>
+  </div>
+
+  <!-- Product Story Modal -->
+  <div class="modal-overlay" id="productStoryModal">
+    <div class="product-story-wrapper">
+      <button class="story-nav prev" id="productPrevBtn" aria-label="Previous product">‹</button>
+      <div class="story-container product-story-container" id="productStoryContainer">
+        <div class="story-progress" id="productStoryProgress"></div>
+        <button class="story-close" id="productStoryClose">✕</button>
+        <div class="story-rank-badge" id="productStoryBadge">SS Tier · Galaxy Brain</div>
+        <div class="story-content product-story-content" id="productStoryContent"></div>
+      </div>
+      <button class="story-nav next" id="productNextBtn" aria-label="Next product">›</button>
+    </div>
+  </div>
+
+  <!-- Onboarding modal -->
+  <div class="modal-overlay" id="onboardModal">
+    <div class="onboard-card">
+      <button class="story-close" id="onboardClose" style="background:#eee;color:#333;">✕</button>
+      <div class="onboard-step" data-step="1">
+        <div class="onboard-emoji">🦙</div>
+        <h2>Let's set up a profile!</h2>
+        <p>One profile per kid. They'll earn XP, badges, and climb tiers as they solve.</p>
+        <div class="onboard-actions"><span></span><button class="btn-primary" data-next="2">Begin →</button></div>
+      </div>
+      <div class="onboard-step" data-step="2" style="display:none;">
+        <h2>Who is this for?</h2>
+        <div class="form-row"><label>Their name</label><input id="onName" placeholder="e.g. Aarav" /></div>
+        <div class="form-row"><label>Their age</label><input id="onAge" type="number" min="2" max="12" placeholder="5" /></div>
+        <div class="form-row">
+          <label>Pick an avatar</label>
+          <div class="avatar-picker" id="onAvatarPicker">
+            <button data-emoji="🦙" class="selected">🦙</button>
+            <button data-emoji="🐻">🐻</button>
+            <button data-emoji="🦊">🦊</button>
+            <button data-emoji="🐰">🐰</button>
+            <button data-emoji="🦄">🦄</button>
+            <button data-emoji="🐉">🐉</button>
+            <button data-emoji="🦕">🦕</button>
+            <button data-emoji="🐧">🐧</button>
+          </div>
+        </div>
+        <div class="onboard-actions">
+          <button class="btn-secondary" data-back="1">← Back</button>
+          <button class="btn-primary" data-next="3">Continue →</button>
+        </div>
+      </div>
+      <div class="onboard-step" data-step="3" style="display:none;">
+        <div class="onboard-emoji">🎉</div>
+        <h2>All set!</h2>
+        <p>Your little Llama starts at <strong>D Tier — Tiny Thinker</strong>. Log a solve to earn XP and climb the trail.</p>
+        <div class="onboard-actions"><span></span><button class="btn-primary" id="onboardFinishBtn">Take me there →</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Log-a-Solve modal -->
+  <div class="modal-overlay" id="solveModal">
+    <div class="solve-card">
+      <button class="story-close" id="solveClose" style="background:#eee;color:#333;">✕</button>
+      <h2>Log a solve 🧩</h2>
+      <div class="form-row"><label>What did they solve?</label><input id="solveName" placeholder="e.g. Rainbow Logic Cubes" /></div>
+      <div class="form-row"><label>Tier</label>
+        <select id="solveTier">
+          <option value="D">D — Tiny Thinker</option><option value="C">C — Clever Cadet</option>
+          <option value="B" selected>B — Puzzle Pro</option><option value="A">A — Master at Work</option>
+          <option value="S">S — Prophet of Puzzles</option><option value="SS">SS — Galaxy Brain</option>
+        </select>
+      </div>
+      <div class="form-row"><label>How tough was it?</label>
+        <select id="solveDiff"><option value="easy">Easy</option><option value="medium" selected>Medium</option><option value="hard">Hard</option></select>
+      </div>
+      <div class="form-row"><label>Time (minutes, optional)</label><input id="solveTime" type="number" min="0" placeholder="15" /></div>
+      <div class="onboard-actions">
+        <button class="btn-secondary" id="solveCancelBtn">Cancel</button>
+        <button class="btn-primary" id="solveSaveBtn">Save Solve ✨</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile edit modal -->
+  <div class="modal-overlay" id="profileEditModal">
+    <div class="onboard-card">
+      <button class="story-close" id="profileEditClose" style="background:#eee;color:#333;">✕</button>
+      <h2>Edit profile</h2>
+      <div class="form-row"><label>Name</label><input id="editName" /></div>
+      <div class="form-row"><label>Age</label><input id="editAge" type="number" min="2" max="12" /></div>
+      <div class="form-row"><label>Avatar</label>
+        <div class="avatar-picker" id="editAvatarPicker">
+          <button data-emoji="🦙">🦙</button><button data-emoji="🐻">🐻</button>
+          <button data-emoji="🦊">🦊</button><button data-emoji="🐰">🐰</button>
+          <button data-emoji="🦄">🦄</button><button data-emoji="🐉">🐉</button>
+          <button data-emoji="🦕">🦕</button><button data-emoji="🐧">🐧</button>
+        </div>
+      </div>
+      <div class="onboard-actions">
+        <button class="btn-secondary" id="profileDeleteBtn" style="color:#ef4444;border-color:#ffd1d1;">Delete profile</button>
+        <button class="btn-primary" id="profileSaveBtn">Save changes ✨</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-toast" id="cartToast">Added to cart 🛒</div>
+<script>
+(function () {
+  'use strict';
+
+  const TIER_TITLES = {
+    SS: 'Galaxy-Brain Mythical Puzzles', S: 'Prophet of Puzzles — Legendary',
+    A: 'Master at Work — Expert Tier', B: 'Puzzle Pro — Confident Solvers',
+    C: 'Clever Cadet — The Sweet Spot', D: 'Tiny Thinker — First Wins'
+  };
+  const TIER_XP = { D: 30, C: 60, B: 120, A: 200, S: 300, SS: 500 };
+  const TIER_THRESHOLDS = [
+    { tier:'D', min:0 }, { tier:'C', min:30 }, { tier:'B', min:90 },
+    { tier:'A', min:210 }, { tier:'S', min:410 }, { tier:'SS', min:710 }
+  ];
+
+  const TIER_PRODUCTS = {
+    SS: [
+      { name: 'Galactic Maze Master', meta: 'Ages 7–8 · 200 pieces', price: '$49.99', emoji: '🌌', desc: 'A 3D galaxy maze with hidden tunnels — the finished puzzle looks like a real star map.', stock: 'Only 3 left' },
+      { name: 'Cosmic Logic Cube',    meta: 'Ages 7–8 · 250 pieces', price: '$54.99', emoji: '🪐', desc: 'Wooden 5-layer cube with shifting logic gates. Trains pattern thinking like nothing else.', stock: 'Low stock' },
+      { name: 'Atlas of Riddles',     meta: 'Ages 8+ · Book + Set',  price: '$44.99', emoji: '📜', desc: '108-page riddle atlas paired with a tactile clue set. Cracks open a new world per page.', stock: 'In stock' },
+      { name: 'Mystery Mountain',     meta: 'Ages 8+ · 300 pieces',  price: '$59.99', emoji: '🗻', desc: 'Layered mountain peak puzzle with secret reveal at the summit. Glows under blacklight.', stock: 'Just restocked' },
+      { name: 'Black Hole Puzzle',    meta: 'Ages 8+ · 240 pieces',  price: '$52.99', emoji: '🕳️', desc: "Spiral gradient piece set. Looks impossible until it isn't. Suddenly. Magically.", stock: 'Only 5 left' },
+      { name: 'Quantum Cube XL',      meta: 'Ages 8+ · 5x5x5',       price: '$48.99', emoji: '🧊', desc: 'Pro-grade speed cube with smooth corner cuts. Comes with a foldable solving stand.', stock: 'In stock' },
+      { name: 'Constellation Map',    meta: 'Ages 8+ · 280 pieces',  price: '$56.99', emoji: '✨', desc: 'Glow-in-the-dark constellation map. Build by day, study the stars by night.', stock: 'Bestseller' }
+    ],
+    S: [
+      { name: 'Dragon Quest 100', meta: 'Ages 6–8 · 100 pieces', price: '$36.99', emoji: '🐉', desc: 'Slay-the-puzzle dragon scene with foil-stamped scales. Includes mini-storybook.', stock: 'In stock' },
+      { name: 'Ancient Maps', meta: 'Ages 6–8 · 120 pieces', price: '$39.99', emoji: '🗺️', desc: 'Treasure map puzzle with raised edges, mini compass, and a real "X marks the spot" sticker.', stock: 'Low stock' },
+      { name: 'Wizard Tower', meta: 'Ages 6–8 · 150 pieces', price: '$42.99', emoji: '🧙', desc: 'Tower-shaped puzzle with secret door panels. Books, owls, and a tiny wizard included.', stock: 'In stock' },
+      { name: 'Galaxy Brain Cube', meta: 'Ages 7+ · 4x4', price: '$34.99', emoji: '🌠', desc: 'Speed cube with magnetic core. Smoother turning, no popping pieces. Pro feel.', stock: 'Bestseller' },
+      { name: 'Crystal Cave', meta: 'Ages 6–8 · 140 pieces', price: '$38.99', emoji: '💎', desc: 'Iridescent crystal scene with translucent pieces that catch the light. Mesmerising.', stock: 'In stock' },
+      { name: 'Phoenix Rising', meta: 'Ages 7+ · 160 pieces', price: '$41.99', emoji: '🔥', desc: 'Phoenix in flame swirl. Pieces are die-cut to follow the feather lines — extra elegant.', stock: 'Just restocked' },
+      { name: 'Lost City Hunt', meta: 'Ages 7+ · 130 pieces', price: '$37.99', emoji: '🏛️', desc: 'Ruined city scene with hidden-object scavenger card. Find 30 items as you build.', stock: 'In stock' }
+    ],
+    A: [
+      { name: 'Space Explorer', meta: 'Ages 6–8 · 100 pieces', price: '$32.99', emoji: '🚀', desc: 'Rocket launch scene with a removable astronaut figurine. Glow stars included.', stock: 'In stock' },
+      { name: 'Ocean Depths', meta: 'Ages 6–8 · 80 pieces', price: '$28.99', emoji: '🌊', desc: 'Whales, jellyfish, deep-sea diver — pieces are slightly textured for sensory fun.', stock: 'In stock' },
+      { name: 'Pyramid Path', meta: 'Ages 6–8 · 90 pieces', price: '$30.99', emoji: '🏺', desc: 'Egyptian tomb puzzle with hieroglyph stickers. Includes a mini decoder ring.', stock: 'Low stock' },
+      { name: 'Robot Workshop', meta: 'Ages 6–8 · 100 pieces', price: '$34.99', emoji: '🤖', desc: 'Build the puzzle, then build the robot. Bonus: 12-piece snap-together robot included.', stock: 'Bestseller' },
+      { name: 'Volcano Adventure', meta: 'Ages 6–8 · 80 pieces', price: '$29.99', emoji: '🌋', desc: 'Erupting volcano scene with heat-activated colour-changing pieces. Mind = blown.', stock: 'In stock' },
+      { name: "Knight's Castle", meta: 'Ages 6–8 · 96 pieces', price: '$31.99', emoji: '🏰', desc: 'Medieval castle with drawbridge that actually moves on the finished puzzle.', stock: 'In stock' },
+      { name: 'Mountain Climb', meta: 'Ages 6–8 · 110 pieces', price: '$34.99', emoji: '🧗', desc: 'Mountain expedition scene with paper climbers you can slot into the finished puzzle.', stock: 'New arrival' }
+    ],
+    B: [
+      { name: 'Rainbow Logic Cubes', meta: 'Ages 4–6 · 48 pieces', price: '$24.99', emoji: '🌈', desc: 'Chunky rainbow cubes that snap together magnetically. Pattern cards included.', stock: 'In stock' },
+      { name: 'Forest Friends', meta: 'Ages 4–6 · 50 pieces', price: '$22.99', emoji: '🦊', desc: 'Foxes, deer and bunnies in a sunny forest. Soft-edged pieces, kid-friendly.', stock: 'Bestseller' },
+      { name: 'Sunny Garden', meta: 'Ages 4–6 · 60 pieces', price: '$25.99', emoji: '🌻', desc: 'Flowers, bees and a smiley sun. Bright, cheerful, and easy to start with.', stock: 'In stock' },
+      { name: 'Under the Sea', meta: 'Ages 4–6 · 48 pieces', price: '$23.99', emoji: '🐠', desc: 'Coral reef scene with shiny fish foil. Pieces are wipe-clean — for the messy kid.', stock: 'In stock' },
+      { name: 'Farm Fun Days', meta: 'Ages 4–6 · 50 pieces', price: '$24.99', emoji: '🐷', desc: 'Pigs, tractors and a friendly farmer. Includes 6 farm-animal flashcards.', stock: 'Just restocked' },
+      { name: 'Magical Forest', meta: 'Ages 4–6 · 60 pieces', price: '$26.99', emoji: '🦄', desc: 'Unicorns, rainbows and glittery trails. Glitter is sealed in, not loose. Promise.', stock: 'Low stock' },
+      { name: 'Dino Discovery', meta: 'Ages 4–6 · 54 pieces', price: '$25.99', emoji: '🦕', desc: 'Dinosaurs in their habitats with a fold-out fact poster. Rawr-worthy.', stock: 'In stock' }
+    ],
+    C: [
+      { name: 'Animal Friends Maze', meta: 'Ages 3–5 · 24 pieces', price: '$19.99', emoji: '🐻', desc: 'Bears, bunnies, and a curious squirrel. Big chunky pieces, easy first maze.', stock: 'In stock' },
+      { name: 'Happy Hippos', meta: 'Ages 3–5 · 20 pieces', price: '$17.99', emoji: '🦛', desc: 'Hippos in mud, hippos in baths. Just adorable. Kids love the giggle factor.', stock: 'Bestseller' },
+      { name: 'Birthday Cake', meta: 'Ages 3–5 · 24 pieces', price: '$18.99', emoji: '🎂', desc: 'Layered birthday cake puzzle. Pieces slot together like cake slices. Sweet.', stock: 'In stock' },
+      { name: 'Ice Cream Truck', meta: 'Ages 3–5 · 30 pieces', price: '$20.99', emoji: '🍦', desc: 'Truck on a sunny street with kids in line. Smells faintly of vanilla. Yes really.', stock: 'New arrival' },
+      { name: 'Tiny Town', meta: 'Ages 3–5 · 28 pieces', price: '$19.99', emoji: '🏘️', desc: 'A whole little town to build. Pop-up cardboard houses to play with after.', stock: 'In stock' },
+      { name: 'Puppy Park', meta: 'Ages 3–5 · 24 pieces', price: '$18.99', emoji: '🐶', desc: 'Six different puppies playing in the park. Match them to name cards.', stock: 'In stock' },
+      { name: 'Fruit Basket', meta: 'Ages 3–5 · 30 pieces', price: '$21.99', emoji: '🍎', desc: 'Colourful fruits with bonus fruit-name flashcards in English and Spanish.', stock: 'Low stock' }
+    ],
+    D: [
+      { name: 'My First Shapes', meta: 'Ages 2–3 · 6 pieces', price: '$14.99', emoji: '🧩', desc: 'Wooden shape sorter. Each piece is satisfyingly heavy. Toddler-approved.', stock: 'Bestseller' },
+      { name: 'Big Chunky ABCs', meta: 'Ages 2–3 · 8 pieces', price: '$15.99', emoji: '🔤', desc: 'Giant ABC puzzle with rounded edges. Doubles as letter-recognition flashcards.', stock: 'In stock' },
+      { name: 'Colorful Animals', meta: 'Ages 2–3 · 6 pieces', price: '$14.99', emoji: '🐮', desc: 'Cow, sheep, duck, pig, dog, cat. Big chunky pieces with animal-sound stickers.', stock: 'In stock' },
+      { name: 'Number Fun 1-10', meta: 'Ages 2–3 · 10 pieces', price: '$15.99', emoji: '🔢', desc: 'Counting puzzle with one to ten objects per number. Maths feels like a game.', stock: 'In stock' },
+      { name: 'Hello, Trucks!', meta: 'Ages 2–3 · 6 pieces', price: '$13.99', emoji: '🚚', desc: 'Fire truck, dump truck, garbage truck and more. Wheels actually turn.', stock: 'Low stock' },
+      { name: 'First Faces', meta: 'Ages 2–3 · 5 pieces', price: '$12.99', emoji: '😊', desc: 'Mix-and-match face puzzle. Build silly expressions. Hours of giggling.', stock: 'In stock' },
+      { name: 'Tiny Llamas', meta: 'Ages 2–3 · 6 pieces', price: '$14.99', emoji: '🦙', desc: 'Six baby llamas in colourful outfits. Brand mascot energy. The cutest.', stock: 'New arrival' }
+    ]
+  };
+
+  const legends = [
+    { rank: 1,  name: 'Aarav', title: 'Prophet of Puzzles',  tier: 'S', puzzle: 'Galactic Maze Master',  emoji: '👦🏽', crown: '👑' },
+    { rank: 2,  name: 'Maya',  title: 'Galaxy Brain',        tier: 'S', puzzle: 'Cosmic Logic Cube',     emoji: '👧🏼', crown: '👑' },
+    { rank: 3,  name: 'Liam',  title: 'Sage of Solutions',   tier: 'S', puzzle: 'Atlas of Riddles',      emoji: '🧒🏻', crown: '👑' },
+    { rank: 4,  name: 'Zara',  title: 'Llama Legend',        tier: 'S', puzzle: 'Mystery Mountain',      emoji: '👧🏽', crown: '👑' },
+    { rank: 5,  name: 'Noah',  title: 'Brain Boss',          tier: 'A', puzzle: 'Space Explorer Puzzle', emoji: '👦🏻', crown: '🔥' },
+    { rank: 6,  name: 'Aisha', title: 'Puzzle Prodigy',      tier: 'A', puzzle: 'Dragon Quest 100',      emoji: '👧🏿', crown: '🔥' },
+    { rank: 7,  name: 'Diego', title: 'Mind Maestro',        tier: 'A', puzzle: 'Ocean Depths',          emoji: '🧒🏽', crown: '🔥' },
+    { rank: 8,  name: 'Ella',  title: 'Logic Legend',        tier: 'A', puzzle: 'Forest Friends 80',     emoji: '👧🏻', crown: '🔥' },
+    { rank: 9,  name: 'Kai',   title: 'Master at Work',      tier: 'A', puzzle: 'Pyramid Path',          emoji: '👦🏿', crown: '🔥' },
+    { rank: 10, name: 'Priya', title: 'Brain Buddy Supreme', tier: 'B', puzzle: 'Rainbow Logic Cubes',   emoji: '👧🏽', crown: '⭐' }
+  ];
+
+  const FAQ_DATA = [
+    { q: 'What ages are MamaLama puzzles for?', a: 'Our Sky Trail tiers cover ages 2 through 8+. The D tier is for toddlers (2–3), and the SS tier is for puzzle wizards (8+). Most kids find their sweet spot in the C, B, or A tiers.' },
+    { q: 'How fast do you ship?', a: 'Standard shipping ships in 1–2 business days and arrives in 3–5 business days. Express is overnight if ordered before 2pm PT.' },
+    { q: 'Do you ship internationally?', a: 'Yes! We ship to Canada ($12.99) and most of the world ($24.99). International orders typically arrive in 7–14 business days.' },
+    { q: "What's your return policy?", a: "30-day no-questions-asked returns. If your kid doesn't love it, ship it back and we'll refund you in full." },
+    { q: 'What if pieces are missing?', a: "Email us at hello@mamalama.shop with your order number and we'll ship replacement pieces within 48 hours. Free of charge, always." },
+    { q: 'What is the Sky Trail?', a: 'A free gamified progression system. Your kid builds a profile, logs puzzles they complete, earns XP and badges, and climbs from D tier (Tiny Thinker) to SS tier (Galaxy Brain).' },
+    { q: 'Are the puzzles safe?', a: 'All MamaLama products are CPSIA and ASTM F963 certified, non-toxic, BPA-free, and lab-tested for choking hazards. We test every single batch.' },
+    { q: 'Do you offer gift wrap?', a: 'Yes — at checkout you can add hand-wrapped gift packaging with a handwritten note for $4.99.' },
+    { q: 'What payment methods do you accept?', a: 'All major credit cards, UPI, netbanking, popular wallets, and EMI for India. International orders accept Visa, Mastercard, and Amex.' },
+    { q: 'Can I change or cancel my order?', a: "Yes, as long as it hasn't shipped yet. Email us within 2 hours of placing the order at orders@mamalama.shop." },
+    { q: 'Do you sell wholesale?', a: 'Yes! We work with select toy stores, schools, and Montessori centers. Drop us a line at wholesale@mamalama.shop with your details.' },
+    { q: 'How do you handle privacy?', a: 'We never sell your data. We only use your information to fulfill orders and (if you opt in) send occasional updates. Full policy on request.' }
+  ];
+
+  const STORE_KEY = 'mamalama_store_v1';
+  const STORE = { cart: [], wishlist: [], profiles: [], activeProfileId: null };
+  function loadStore() { try { const raw = localStorage.getItem(STORE_KEY); if (raw) Object.assign(STORE, JSON.parse(raw)); } catch (e) {} }
+  function saveStore() { try { localStorage.setItem(STORE_KEY, JSON.stringify(STORE)); } catch (e) {} }
+  function priceToNumber(p) { return Number(String(p).replace(/[^0-9.]/g, '')) || 0; }
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function isEmail(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+  function makeItemId(tier, name) { return (tier || 'X') + ':' + name; }
+  function inWishlist(tier, name) { return !!STORE.wishlist.find(w => w.id === makeItemId(tier, name)); }
+
+  function addToCart(p) {
+    const id = makeItemId(p.tier, p.name);
+    const existing = STORE.cart.find(i => i.id === id);
+    if (existing) existing.qty += 1;
+    else STORE.cart.push(Object.assign({}, p, { id, qty: 1 }));
+    saveStore(); updateBadges(); renderCart();
+  }
+  function removeFromCart(id) { STORE.cart = STORE.cart.filter(i => i.id !== id); saveStore(); updateBadges(); renderCart(); }
+  function setCartQty(id, qty) { const it = STORE.cart.find(i => i.id === id); if (!it) return; if (qty <= 0) { removeFromCart(id); return; } it.qty = qty; saveStore(); updateBadges(); renderCart(); }
+  function toggleWishlist(p) {
+    const id = makeItemId(p.tier, p.name);
+    const idx = STORE.wishlist.findIndex(w => w.id === id);
+    if (idx >= 0) { STORE.wishlist.splice(idx, 1); saveStore(); updateBadges(); renderWishlist(); return false; }
+    STORE.wishlist.push(Object.assign({}, p, { id })); saveStore(); updateBadges(); renderWishlist(); return true;
+  }
+  function removeFromWishlist(id) { STORE.wishlist = STORE.wishlist.filter(w => w.id !== id); saveStore(); updateBadges(); renderWishlist(); }
+  function moveWishlistToCart(id) { const it = STORE.wishlist.find(w => w.id === id); if (!it) return; addToCart(it); removeFromWishlist(id); showCartToast(it.name + ' moved to cart 🛒'); }
+  function moveCartToWishlist(id) { const it = STORE.cart.find(i => i.id === id); if (!it) return; if (!STORE.wishlist.find(w => w.id === id)) STORE.wishlist.push(Object.assign({}, it)); removeFromCart(id); saveStore(); updateBadges(); renderWishlist(); showCartToast(it.name + ' saved for later 💖'); }
+
+  function updateBadges() {
+    const c = STORE.cart.reduce((s, i) => s + i.qty, 0);
+    const w = STORE.wishlist.length;
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = String(c));
+    const wb = document.getElementById('wishCountBadge');
+    if (wb) { wb.textContent = String(w); wb.classList.toggle('hidden', w === 0); }
+  }
+
+  const cartToast = document.getElementById('cartToast');
+  function showCartToast(msg) {
+    if (!cartToast) return;
+    cartToast.textContent = msg; cartToast.classList.add('show');
+    clearTimeout(showCartToast._t);
+    showCartToast._t = setTimeout(() => cartToast.classList.remove('show'), 1800);
+  }
+  function renderCart() {
+    const itemsEl = document.getElementById('cartItems');
+    const layout = document.getElementById('cartLayout');
+    const empty = document.getElementById('cartEmpty');
+    const sumText = document.getElementById('cartSummaryText');
+    if (!itemsEl) return;
+    if (STORE.cart.length === 0) {
+      layout.classList.add('hidden'); empty.classList.add('visible');
+      sumText.textContent = '0 items in your cart'; return;
+    }
+    layout.classList.remove('hidden'); empty.classList.remove('visible');
+    itemsEl.innerHTML = STORE.cart.map(p => {
+      const tierLc = (p.tier || '').toLowerCase();
+      const lineTotal = (priceToNumber(p.price) * p.qty).toFixed(2);
+      return `
+        <div class="cart-item" data-id="${escapeHtml(p.id)}">
+          <div class="cart-item-banner ${tierLc}">
+            <span>${escapeHtml(p.emoji)}</span>
+            ${p.tier ? `<span class="mini-tier">${escapeHtml(p.tier)}</span>` : ''}
+          </div>
+          <div class="cart-item-info">
+            <h3>${escapeHtml(p.name)}</h3>
+            <div class="meta">${escapeHtml(p.meta)}</div>
+            <div class="cart-item-actions">
+              <button class="remove-btn" data-act="remove">✕ Remove</button>
+              <button data-act="save">♡ Save for later</button>
+            </div>
+          </div>
+          <div class="qty-control">
+            <button data-act="minus">−</button>
+            <span class="qty">${p.qty}</span>
+            <button data-act="plus">+</button>
+          </div>
+          <div class="cart-item-price">$${lineTotal}</div>
+        </div>`;
+    }).join('');
+    itemsEl.querySelectorAll('.cart-item').forEach(row => {
+      const id = row.dataset.id;
+      row.querySelector('[data-act="remove"]').addEventListener('click', () => removeFromCart(id));
+      row.querySelector('[data-act="save"]').addEventListener('click', () => moveCartToWishlist(id));
+      row.querySelector('[data-act="minus"]').addEventListener('click', () => {
+        const cur = STORE.cart.find(i => i.id === id).qty;
+        if (cur === 1) removeFromCart(id); else setCartQty(id, cur - 1);
+      });
+      row.querySelector('[data-act="plus"]').addEventListener('click', () => {
+        const cur = STORE.cart.find(i => i.id === id).qty; setCartQty(id, cur + 1);
+      });
+    });
+    const sub = STORE.cart.reduce((s, i) => s + priceToNumber(i.price) * i.qty, 0);
+    const ship = sub >= 40 ? 0 : 5.99;
+    const tax = sub * 0.08;
+    const total = sub + ship + tax;
+    const tq = STORE.cart.reduce((s, i) => s + i.qty, 0);
+    sumText.textContent = `${tq} ${tq === 1 ? 'item' : 'items'} in your cart`;
+    document.getElementById('cartSubtotal').textContent = '$' + sub.toFixed(2);
+    document.getElementById('cartShipping').textContent = ship === 0 ? 'Free' : '$' + ship.toFixed(2);
+    document.getElementById('cartTax').textContent = '$' + tax.toFixed(2);
+    document.getElementById('cartTotal').textContent = '$' + total.toFixed(2);
+  }
+
+  function renderWishlist() {
+    const gridEl = document.getElementById('wishlistGrid');
+    const empty = document.getElementById('wishlistEmpty');
+    const sumText = document.getElementById('wishlistSummaryText');
+    if (!gridEl) return;
+    if (STORE.wishlist.length === 0) {
+      gridEl.classList.add('hidden'); empty.classList.add('visible');
+      sumText.textContent = 'Tap the ♡ button on any puzzle to save it for later.'; return;
+    }
+    gridEl.classList.remove('hidden'); empty.classList.remove('visible');
+    sumText.textContent = `${STORE.wishlist.length} ${STORE.wishlist.length === 1 ? 'puzzle' : 'puzzles'} saved.`;
+    gridEl.innerHTML = STORE.wishlist.map(p => {
+      const tierLc = (p.tier || '').toLowerCase();
+      return `
+        <div class="wishlist-card" data-id="${escapeHtml(p.id)}">
+          <div class="wishlist-banner ${tierLc}">
+            <span>${escapeHtml(p.emoji)}</span>
+            ${p.tier ? `<span class="tier-pill">${escapeHtml(p.tier)}</span>` : ''}
+          </div>
+          <h3>${escapeHtml(p.name)}</h3>
+          <div class="meta">${escapeHtml(p.meta)}</div>
+          <div class="price">${escapeHtml(p.price)}</div>
+          <div class="wishlist-actions">
+            <button class="btn-add-cart" data-act="add">Add to Cart 🛒</button>
+            <button class="btn-remove" data-act="remove" aria-label="Remove">✕</button>
+          </div>
+        </div>`;
+    }).join('');
+    gridEl.querySelectorAll('.wishlist-card').forEach(card => {
+      const id = card.dataset.id;
+      card.querySelector('[data-act="add"]').addEventListener('click', () => moveWishlistToCart(id));
+      card.querySelector('[data-act="remove"]').addEventListener('click', () => removeFromWishlist(id));
+    });
+  }
+
+  /* Hero slider */
+  const heroSlider = document.getElementById('heroSlider');
+  if (heroSlider) {
+    const slides = heroSlider.querySelectorAll('.hero-slide');
+    const dots = heroSlider.querySelectorAll('.hero-dot');
+    let active = 0, timer = null;
+    function go(i) {
+      active = (i + slides.length) % slides.length;
+      slides.forEach((s, idx) => s.classList.toggle('active', idx === active));
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === active));
+    }
+    function start() { if (!timer) timer = setInterval(() => go(active + 1), 6000); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    dots.forEach(d => d.addEventListener('click', () => { stop(); go(Number(d.dataset.slide)); start(); }));
+    heroSlider.addEventListener('mouseenter', stop);
+    heroSlider.addEventListener('mouseleave', start);
+    start();
+  }
+
+  /* Tier banner flip */
+  const tierBanners = document.querySelectorAll('.tier-banner');
+  tierBanners.forEach(b => {
+    b.addEventListener('click', e => {
+      if (e.target.closest('.see-products-btn')) return;
+      const wasFlipped = b.classList.contains('flipped');
+      tierBanners.forEach(x => { if (x !== b) x.classList.remove('flipped'); });
+      b.classList.toggle('flipped', !wasFlipped);
+    });
+  });
+
+  /* Product Story Modal */
+  const productStoryModal = document.getElementById('productStoryModal');
+  const productStoryContainer = document.getElementById('productStoryContainer');
+  const productStoryContent = document.getElementById('productStoryContent');
+  const productStoryProgress = document.getElementById('productStoryProgress');
+  const productStoryBadge = document.getElementById('productStoryBadge');
+  const productStoryClose = document.getElementById('productStoryClose');
+  const productPrevBtn = document.getElementById('productPrevBtn');
+  const productNextBtn = document.getElementById('productNextBtn');
+  let activeTier = null, productIndex = 0;
+
+  function buildProductProgressBars(n) {
+    productStoryProgress.innerHTML = Array.from({ length: n }, (_, i) =>
+      `<div class="bar" data-i="${i}"><div class="fill"></div></div>`).join('');
+  }
+  function renderProductStory(tier, i) {
+    const items = TIER_PRODUCTS[tier] || [];
+    if (i < 0 || i >= items.length) return;
+    productIndex = i;
+    const p = items[i];
+    const tierLc = tier.toLowerCase();
+    productStoryContainer.className = 'story-container product-story-container ' + tierLc;
+    productStoryBadge.textContent = `${tier} Tier · ${TIER_TITLES[tier].split('—')[0].trim()}`;
+    const payload = { tier, name: p.name, meta: p.meta, price: p.price, emoji: p.emoji, desc: p.desc };
+    const wished = inWishlist(tier, p.name);
+    const wishLabel = wished ? '♥ Wishlisted' : '♡ Wishlist';
+    const wishStyle = wished ? 'style="color:#ff3b8b;"' : '';
+    productStoryContent.innerHTML = `
+      <div class="product-hero-banner">
+        <span class="rank-chip">${tier}</span>
+        <span>${escapeHtml(p.emoji)}</span>
+        <span class="stock-chip">${escapeHtml((p.stock || 'In stock').toUpperCase())}</span>
+      </div>
+      <div class="product-story-name">${escapeHtml(p.name)}</div>
+      <div class="product-story-meta">${escapeHtml(p.meta)}</div>
+      <div class="product-story-desc">${escapeHtml(p.desc)}</div>
+      <div class="product-story-features"><span>🚚 Free shipping $40+</span><span>🛡️ Non-toxic</span><span>↩️ 30-day returns</span></div>
+      <div class="product-price-row"><span class="price">${escapeHtml(p.price)}</span><span class="free-ship">Free ship over $40</span></div>
+      <div class="product-story-actions">
+        <button class="btn-buy-now" data-action="buy">Buy Now ⚡</button>
+        <button class="btn-add-cart" data-action="cart">+ Add to Cart 🛒</button>
+      </div>
+      <div class="product-bottom-row">
+        <button class="wish-btn" data-action="wish" ${wishStyle}>${wishLabel}</button>
+        <span class="position-pill">${i + 1} of ${items.length}</span>
+      </div>`;
+    productStoryProgress.querySelectorAll('.bar').forEach((b, idx) => {
+      b.classList.toggle('done', idx < i);
+      b.classList.toggle('current', idx === i);
+      b.querySelector('.fill').style.width = (idx <= i) ? '100%' : '0%';
+    });
+    productPrevBtn.disabled = (i === 0);
+    productNextBtn.disabled = (i === items.length - 1);
+    productStoryContent.querySelector('[data-action="buy"]').addEventListener('click', () => {
+      addToCart(payload); showCartToast(p.name + ' added 🛒 — opening cart...');
+      closeProductStory(); setTimeout(() => { location.hash = 'cart'; }, 350);
+    });
+    productStoryContent.querySelector('[data-action="cart"]').addEventListener('click', e => {
+      addToCart(payload); e.currentTarget.classList.add('added'); e.currentTarget.textContent = '✓ Added';
+      showCartToast(p.name + ' added to cart 🛒');
+    });
+    productStoryContent.querySelector('[data-action="wish"]').addEventListener('click', e => {
+      const added = toggleWishlist(payload);
+      e.currentTarget.textContent = added ? '♥ Wishlisted' : '♡ Wishlist';
+      e.currentTarget.style.color = added ? '#ff3b8b' : '';
+      showCartToast(added ? p.name + ' saved 💖' : p.name + ' removed from wishlist');
+    });
+  }
+  function openProductStory(tier) {
+    activeTier = tier;
+    const items = TIER_PRODUCTS[tier] || [];
+    buildProductProgressBars(items.length);
+    renderProductStory(tier, 0);
+    productStoryModal.classList.add('active');
+    productStoryContent.scrollTop = 0;
+  }
+  function closeProductStory() { productStoryModal.classList.remove('active'); activeTier = null; }
+  document.querySelectorAll('.see-products-btn').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); openProductStory(btn.dataset.tier); });
+  });
+  productPrevBtn.addEventListener('click', () => { if (activeTier) renderProductStory(activeTier, productIndex - 1); });
+  productNextBtn.addEventListener('click', () => { if (activeTier) renderProductStory(activeTier, productIndex + 1); });
+  productStoryClose.addEventListener('click', closeProductStory);
+  productStoryModal.addEventListener('click', e => { if (e.target === productStoryModal) closeProductStory(); });
+  document.addEventListener('keydown', e => {
+    if (!productStoryModal.classList.contains('active')) return;
+    if (e.key === 'Escape') closeProductStory();
+    if (e.key === 'ArrowLeft' && !productPrevBtn.disabled) productPrevBtn.click();
+    if (e.key === 'ArrowRight' && !productNextBtn.disabled) productNextBtn.click();
+  });
+
+  /* Leaderboard render */
+  const leaderboardList = document.getElementById('leaderboardList');
+  if (leaderboardList) {
+    leaderboardList.innerHTML = legends.map(l => {
+      const rc = l.rank === 1 ? 'top' : l.rank === 2 ? 'top-2' : l.rank === 3 ? 'top-3' : '';
+      const medal = l.rank === 1 ? '🥇' : l.rank === 2 ? '🥈' : l.rank === 3 ? '🥉' : ('#' + l.rank);
+      return `
+        <div class="leader-row ${rc}">
+          <div class="leader-rank">${medal}</div>
+          <div class="leader-avatar">${l.emoji}</div>
+          <div class="leader-info">
+            <div class="leader-name">${escapeHtml(l.name)}</div>
+            <div class="leader-title">${escapeHtml(l.title)}</div>
+          </div>
+          <div class="leader-puzzle">solved <strong>${escapeHtml(l.puzzle)}</strong></div>
+          <div class="leader-tier ${l.tier.toLowerCase()}">${l.tier}</div>
+        </div>`;
+    }).join('');
+  }
+
+  /* Trophy story modal */
+  const trophyBtn = document.getElementById('trophyBtn');
+  const storyModal = document.getElementById('storyModal');
+  const storyClose = document.getElementById('storyClose');
+  const storyContent = document.getElementById('storyContent');
+  const storyProgress = document.getElementById('storyProgress');
+  const tapLeft = document.getElementById('tapLeft');
+  const tapRight = document.getElementById('tapRight');
+  let storyIndex = 0, storyTimer = null;
+  const STORY_DURATION = 5000;
+  function buildStoryProgress() {
+    storyProgress.innerHTML = legends.map((_, i) => `<div class="bar" data-i="${i}"><div class="fill"></div></div>`).join('');
+  }
+  function renderStory(i) {
+    if (i < 0) i = 0;
+    if (i >= legends.length) { closeStory(); return; }
+    storyIndex = i;
+    const l = legends[i];
+    storyContent.innerHTML = `
+      <div class="story-spotlight">
+        <div class="story-crown">${l.crown}</div>
+        <div class="story-avatar">${l.emoji}</div>
+        <div class="story-name">${escapeHtml(l.name)}</div>
+        <div class="story-title">${escapeHtml(l.title)}</div>
+        <div class="story-puzzle">solved <strong>${escapeHtml(l.puzzle)}</strong></div>
+        <div class="story-tier-chip ${l.tier.toLowerCase()}">${l.tier} Tier</div>
+        <div class="story-rank-num">Rank #${l.rank}</div>
+      </div>`;
+    storyProgress.querySelectorAll('.bar').forEach((b, idx) => {
+      const fill = b.querySelector('.fill');
+      b.classList.remove('done', 'current');
+      if (idx < i) { b.classList.add('done'); fill.style.width = '100%'; fill.style.transition = 'none'; }
+      else if (idx === i) {
+        b.classList.add('current'); fill.style.transition = 'none'; fill.style.width = '0%';
+        requestAnimationFrame(() => { fill.style.transition = `width ${STORY_DURATION}ms linear`; fill.style.width = '100%'; });
+      } else { fill.style.width = '0%'; fill.style.transition = 'none'; }
+    });
+    clearTimeout(storyTimer);
+    storyTimer = setTimeout(() => renderStory(i + 1), STORY_DURATION);
+  }
+  function openStory() { buildStoryProgress(); storyModal.classList.add('active'); renderStory(0); }
+  function closeStory() { storyModal.classList.remove('active'); clearTimeout(storyTimer); }
+  if (trophyBtn) trophyBtn.addEventListener('click', openStory);
+  if (storyClose) storyClose.addEventListener('click', closeStory);
+  if (tapLeft) tapLeft.addEventListener('click', () => renderStory(storyIndex - 1));
+  if (tapRight) tapRight.addEventListener('click', () => renderStory(storyIndex + 1));
+  if (storyModal) storyModal.addEventListener('click', e => { if (e.target === storyModal) closeStory(); });
+  /* Sky Trail */
+  function tierForXp(xp) {
+    let cur = 'D';
+    for (const t of TIER_THRESHOLDS) if (xp >= t.min) cur = t.tier;
+    return cur;
+  }
+  function nextTierInfo(xp) {
+    const idx = TIER_THRESHOLDS.findIndex(t => xp < t.min);
+    return idx < 0 ? null : TIER_THRESHOLDS[idx];
+  }
+  function activeProfile() { return STORE.profiles.find(p => p.id === STORE.activeProfileId) || null; }
+
+  function renderTrail() {
+    const empty = document.getElementById('trailEmpty');
+    const dash = document.getElementById('trailDashboard');
+    if (!empty || !dash) return;
+    if (STORE.profiles.length === 0) { empty.style.display = 'block'; dash.style.display = 'none'; return; }
+    empty.style.display = 'none'; dash.style.display = 'flex';
+    if (!STORE.activeProfileId) STORE.activeProfileId = STORE.profiles[0].id;
+    const prof = activeProfile(); if (!prof) return;
+    const next = nextTierInfo(prof.xp);
+    const curMin = TIER_THRESHOLDS.find(t => t.tier === prof.tier)?.min || 0;
+    const pct = next ? Math.min(100, Math.round(((prof.xp - curMin) / (next.min - curMin)) * 100)) : 100;
+    document.getElementById('profileHero').innerHTML = `
+      <button class="profile-menu-btn" id="profileMenuBtn" aria-label="Edit profile">⋯</button>
+      <div class="profile-avatar-lg">${prof.avatar}</div>
+      <div class="profile-name-lg">${escapeHtml(prof.name)}</div>
+      <div class="profile-age">Age ${prof.age}</div>
+      <div class="profile-tier-chip ${prof.tier.toLowerCase()}">${prof.tier} Tier</div>
+      <div class="xp-bar"><div class="xp-fill" style="width:${pct}%;"></div></div>
+      <div class="xp-text">${prof.xp} XP${next ? ` · ${next.min - prof.xp} XP to ${next.tier}` : ' · Max tier reached 🏆'}</div>`;
+    document.getElementById('profileStats').innerHTML = `
+      <div class="stat-card"><span class="stat-num">${prof.solves.length}</span><span class="stat-label">Puzzles solved</span></div>
+      <div class="stat-card"><span class="stat-num">${prof.badges.length}</span><span class="stat-label">Badges</span></div>
+      <div class="stat-card"><span class="stat-num">${prof.xp}</span><span class="stat-label">Total XP</span></div>`;
+    document.getElementById('profileSwitcher').innerHTML =
+      STORE.profiles.map(p => `
+        <button class="profile-chip ${p.id === STORE.activeProfileId ? 'active' : ''}" data-pid="${p.id}">
+          <span class="profile-chip-avatar">${p.avatar}</span><span>${escapeHtml(p.name)}</span>
+        </button>`).join('') +
+      `<button class="profile-chip add" id="addProfileChip">+ Add</button>`;
+    document.getElementById('badgeGrid').innerHTML = prof.badges.length
+      ? prof.badges.map(b => `<div class="badge-tile"><div class="badge-emoji">${b.split('|')[0]}</div><div class="badge-name">${escapeHtml(b.split('|')[1] || b)}</div></div>`).join('')
+      : `<div class="empty-mini">No badges yet. Log a solve to earn your first!</div>`;
+    document.getElementById('solvesList').innerHTML = prof.solves.length
+      ? prof.solves.slice().reverse().map(s => `
+          <div class="solve-row">
+            <div class="solve-tier ${s.tier.toLowerCase()}">${s.tier}</div>
+            <div><div class="solve-name">${escapeHtml(s.productName)}</div>
+              <div class="solve-meta">${s.difficulty} · ${s.timeMinutes ? s.timeMinutes + ' min · ' : ''}+${s.xpEarned} XP</div></div>
+            <div class="solve-date">${new Date(s.loggedAt).toLocaleDateString()}</div>
+          </div>`).join('')
+      : `<div class="empty-mini">No solves logged yet.</div>`;
+    document.querySelectorAll('#profileSwitcher .profile-chip[data-pid]').forEach(btn => {
+      btn.addEventListener('click', () => { STORE.activeProfileId = btn.dataset.pid; saveStore(); renderTrail(); });
+    });
+    const addBtn = document.getElementById('addProfileChip');
+    if (addBtn) addBtn.addEventListener('click', () => openOnboarding());
+    const menuBtn = document.getElementById('profileMenuBtn');
+    if (menuBtn) menuBtn.addEventListener('click', () => openProfileEdit(prof));
+  }
+
+  /* Onboarding */
+  const onboardModal = document.getElementById('onboardModal');
+  let onAvatar = '🦙';
+  function openOnboarding() {
+    onboardModal.classList.add('active');
+    onboardModal.querySelectorAll('.onboard-step').forEach((s, i) => s.style.display = i === 0 ? 'block' : 'none');
+    document.getElementById('onName').value = ''; document.getElementById('onAge').value = '';
+    onAvatar = '🦙';
+    document.querySelectorAll('#onAvatarPicker button').forEach(b => b.classList.toggle('selected', b.dataset.emoji === '🦙'));
+  }
+  function closeOnboarding() { onboardModal.classList.remove('active'); }
+  document.getElementById('onboardClose').addEventListener('click', closeOnboarding);
+  onboardModal.addEventListener('click', e => { if (e.target === onboardModal) closeOnboarding(); });
+  onboardModal.querySelectorAll('[data-next]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const n = btn.dataset.next;
+      if (n === '3') {
+        const name = document.getElementById('onName').value.trim();
+        const age = parseInt(document.getElementById('onAge').value, 10);
+        if (!name) { alert('Please enter their name'); return; }
+        if (!age || age < 2 || age > 12) { alert('Please enter a valid age (2-12)'); return; }
+      }
+      onboardModal.querySelectorAll('.onboard-step').forEach(s => s.style.display = s.dataset.step === n ? 'block' : 'none');
+    });
+  });
+  onboardModal.querySelectorAll('[data-back]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const b = btn.dataset.back;
+      onboardModal.querySelectorAll('.onboard-step').forEach(s => s.style.display = s.dataset.step === b ? 'block' : 'none');
+    });
+  });
+  document.querySelectorAll('#onAvatarPicker button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      onAvatar = btn.dataset.emoji;
+      document.querySelectorAll('#onAvatarPicker button').forEach(b => b.classList.toggle('selected', b === btn));
+    });
+  });
+  document.getElementById('onboardFinishBtn').addEventListener('click', () => {
+    const name = document.getElementById('onName').value.trim();
+    const age = parseInt(document.getElementById('onAge').value, 10);
+    if (!name || !age) { closeOnboarding(); return; }
+    const profile = { id: 'p_' + Date.now(), name, age, avatar: onAvatar, xp: 0, tier: 'D', badges: [], solves: [], createdAt: Date.now() };
+    STORE.profiles.push(profile); STORE.activeProfileId = profile.id;
+    saveStore(); closeOnboarding(); renderTrail();
+  });
+
+  /* Solve modal */
+  const solveModal = document.getElementById('solveModal');
+  function openSolve() {
+    if (!activeProfile()) { alert('Create a profile first!'); return; }
+    solveModal.classList.add('active');
+    document.getElementById('solveName').value = ''; document.getElementById('solveTime').value = '';
+  }
+  function closeSolve() { solveModal.classList.remove('active'); }
+  document.getElementById('solveClose').addEventListener('click', closeSolve);
+  document.getElementById('solveCancelBtn').addEventListener('click', closeSolve);
+  solveModal.addEventListener('click', e => { if (e.target === solveModal) closeSolve(); });
+  document.getElementById('solveSaveBtn').addEventListener('click', () => {
+    const prof = activeProfile(); if (!prof) return;
+    const productName = document.getElementById('solveName').value.trim();
+    const tier = document.getElementById('solveTier').value;
+    const difficulty = document.getElementById('solveDiff').value;
+    const timeMinutes = parseInt(document.getElementById('solveTime').value, 10) || undefined;
+    if (!productName) { alert('What did they solve?'); return; }
+    const base = TIER_XP[tier] || 30;
+    const diffMul = difficulty === 'hard' ? 1.5 : difficulty === 'easy' ? 0.7 : 1;
+    const xpEarned = Math.round(base * diffMul);
+    prof.solves.push({ id: 's_' + Date.now(), productName, tier, difficulty, timeMinutes, xpEarned, loggedAt: Date.now() });
+    prof.xp += xpEarned;
+    const newTier = tierForXp(prof.xp);
+    const promoted = newTier !== prof.tier;
+    prof.tier = newTier;
+    if (prof.solves.length === 1 && !prof.badges.find(b => b.includes('First Solve'))) prof.badges.push('🌟|First Solve');
+    if (promoted) prof.badges.push((newTier === 'SS' ? '🌌' : newTier === 'S' ? '🥇' : '🏅') + '|' + newTier + ' Tier');
+    saveStore(); closeSolve(); renderTrail();
+    showCartToast('+' + xpEarned + ' XP! ' + (promoted ? 'Promoted to ' + newTier + ' tier! 🎉' : ''));
+  });
+
+  /* Profile edit */
+  const profileEditModal = document.getElementById('profileEditModal');
+  let editingProfileId = null, editAvatar = '🦙';
+  function openProfileEdit(prof) {
+    editingProfileId = prof.id; editAvatar = prof.avatar;
+    document.getElementById('editName').value = prof.name;
+    document.getElementById('editAge').value = prof.age;
+    document.querySelectorAll('#editAvatarPicker button').forEach(b => b.classList.toggle('selected', b.dataset.emoji === editAvatar));
+    profileEditModal.classList.add('active');
+  }
+  function closeProfileEdit() { profileEditModal.classList.remove('active'); editingProfileId = null; }
+  document.getElementById('profileEditClose').addEventListener('click', closeProfileEdit);
+  profileEditModal.addEventListener('click', e => { if (e.target === profileEditModal) closeProfileEdit(); });
+  document.querySelectorAll('#editAvatarPicker button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      editAvatar = btn.dataset.emoji;
+      document.querySelectorAll('#editAvatarPicker button').forEach(b => b.classList.toggle('selected', b === btn));
+    });
+  });
+  document.getElementById('profileSaveBtn').addEventListener('click', () => {
+    const prof = STORE.profiles.find(p => p.id === editingProfileId); if (!prof) return;
+    prof.name = document.getElementById('editName').value.trim() || prof.name;
+    prof.age = parseInt(document.getElementById('editAge').value, 10) || prof.age;
+    prof.avatar = editAvatar;
+    saveStore(); closeProfileEdit(); renderTrail();
+  });
+  document.getElementById('profileDeleteBtn').addEventListener('click', () => {
+    if (!editingProfileId) return;
+    if (!confirm('Delete this profile? This cannot be undone.')) return;
+    STORE.profiles = STORE.profiles.filter(p => p.id !== editingProfileId);
+    if (STORE.activeProfileId === editingProfileId) STORE.activeProfileId = STORE.profiles[0]?.id || null;
+    saveStore(); closeProfileEdit(); renderTrail();
+  });
+
+  document.getElementById('startOnboardBtn').addEventListener('click', openOnboarding);
+  document.getElementById('logSolveBtn').addEventListener('click', openSolve);
+
+  /* FAQ */
+  function renderFaq(filter) {
+    const list = document.getElementById('faqList');
+    const noMatch = document.getElementById('faqNoMatch');
+    const q = (filter || '').trim().toLowerCase();
+    const items = q ? FAQ_DATA.filter(it => it.q.toLowerCase().includes(q) || it.a.toLowerCase().includes(q)) : FAQ_DATA.slice();
+    if (items.length === 0) { list.innerHTML = ''; noMatch.style.display = 'block'; return; }
+    noMatch.style.display = 'none';
+    list.innerHTML = items.map((it, i) => `
+      <div class="faq-item" data-i="${i}">
+        <button class="faq-question">${escapeHtml(it.q)}<span class="faq-chevron">+</span></button>
+        <div class="faq-answer" style="display:none;">${escapeHtml(it.a)}</div>
+      </div>`).join('');
+    list.querySelectorAll('.faq-item').forEach(el => {
+      const btn = el.querySelector('.faq-question');
+      const ans = el.querySelector('.faq-answer');
+      const chev = el.querySelector('.faq-chevron');
+      btn.addEventListener('click', () => {
+        const wasOpen = el.classList.contains('open');
+        list.querySelectorAll('.faq-item.open').forEach(o => {
+          o.classList.remove('open');
+          o.querySelector('.faq-answer').style.display = 'none';
+          o.querySelector('.faq-chevron').textContent = '+';
+        });
+        if (!wasOpen) { el.classList.add('open'); ans.style.display = 'block'; chev.textContent = '−'; }
+      });
+    });
+  }
+  document.getElementById('faqSearch').addEventListener('input', e => renderFaq(e.target.value));
+
+  /* Contact form */
+  const contactForm = document.getElementById('contactForm');
+  const contactSuccess = document.getElementById('contactSuccess');
+  function resetContactForm() {
+    document.getElementById('cName').value = '';
+    document.getElementById('cEmail').value = '';
+    document.getElementById('cMessage').value = '';
+    contactForm.querySelectorAll('.form-row').forEach(r => r.classList.remove('error'));
+    contactForm.style.display = ''; contactSuccess.style.display = 'none';
+  }
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('cName').value.trim();
+    const email = document.getElementById('cEmail').value.trim();
+    const msg = document.getElementById('cMessage').value.trim();
+    const rows = contactForm.querySelectorAll('.form-row');
+    rows.forEach(r => r.classList.remove('error'));
+    let ok = true;
+    if (!name) { rows[0].classList.add('error'); rows[0].querySelector('.error-msg').textContent = 'Please tell us your name'; ok = false; }
+    if (!isEmail(email)) { rows[1].classList.add('error'); rows[1].querySelector('.error-msg').textContent = 'Please use a valid email'; ok = false; }
+    if (msg.length < 10) { rows[3].classList.add('error'); rows[3].querySelector('.error-msg').textContent = 'A few more words, please'; ok = false; }
+    if (!ok) return;
+    contactForm.style.display = 'none'; contactSuccess.style.display = 'block';
+  });
+  document.getElementById('contactAgainBtn').addEventListener('click', resetContactForm);
+
+  /* Checkout */
+  const CHECKOUT = { step: 1, shipping: null, payment: null, method: 'card' };
+  function tierBannerBg(tier) {
+    const m = { ss: 'linear-gradient(135deg, #ffd1f0, #c8b8ff 50%, #a8d8ff)', s: 'linear-gradient(135deg, #fff4c2, #ffe27a)', a: 'linear-gradient(135deg, #ffd1d1, #ff8888)', b: 'linear-gradient(135deg, #c5f0de, #4ad9a3)', c: 'linear-gradient(135deg, #cfe4ff, #76b8ff)', d: 'linear-gradient(135deg, #ffe4f1, #ffaad6)' };
+    return m[(tier || '').toLowerCase()] || '#eee';
+  }
+  function openCheckout() {
+    if (STORE.cart.length === 0) { location.hash = 'cart'; return; }
+    CHECKOUT.step = 1; setCheckoutStep(1); renderMiniSummary();
+  }
+  function setCheckoutStep(n) {
+    CHECKOUT.step = n;
+    document.querySelectorAll('#checkoutStepper .step-dot').forEach(d => {
+      const s = Number(d.dataset.step);
+      d.classList.toggle('active', s === n);
+      d.classList.toggle('complete', s < n);
+    });
+    document.querySelectorAll('.checkout-step').forEach(el => el.classList.remove('active'));
+    document.getElementById('checkoutStep' + n).classList.add('active');
+    if (n === 3) renderReview();
+    renderMiniSummary();
+  }
+  function renderMiniSummary() {
+    const el = document.getElementById('miniSummary'); if (!el) return;
+    const sub = STORE.cart.reduce((s, i) => s + priceToNumber(i.price) * i.qty, 0);
+    const ship = sub >= 40 ? 0 : 5.99;
+    const tax = sub * 0.08;
+    const total = sub + ship + tax;
+    el.innerHTML = `
+      <h3>Order Summary</h3>
+      ${STORE.cart.map(i => `
+        <div class="mini-item">
+          <span class="mini-emoji" style="background:${tierBannerBg(i.tier)};">${i.emoji}</span>
+          <span class="mini-name">${escapeHtml(i.name)} <small>×${i.qty}</small></span>
+          <span class="mini-price">$${(priceToNumber(i.price) * i.qty).toFixed(2)}</span>
+        </div>`).join('')}
+      <div class="summary-row"><span>Subtotal</span><span>$${sub.toFixed(2)}</span></div>
+      <div class="summary-row"><span>Shipping</span><span>${ship === 0 ? 'Free' : '$' + ship.toFixed(2)}</span></div>
+      <div class="summary-row"><span>Tax</span><span>$${tax.toFixed(2)}</span></div>
+      <div class="summary-row total"><span>Total</span><span>$${total.toFixed(2)}</span></div>`;
+  }
+  function validateShippingStep() {
+    const fields = ['shFirst', 'shLast', 'shEmail', 'shAddress', 'shCity', 'shState', 'shZip'];
+    let ok = true; const data = {};
+    fields.forEach(f => {
+      const v = document.getElementById(f).value.trim(); data[f] = v;
+      const row = document.getElementById(f).closest('.form-row, .form-row.two-col > div');
+      const parentRow = document.getElementById(f).closest('.form-row');
+      if (parentRow) parentRow.classList.toggle('error', !v);
+      if (!v) ok = false;
+    });
+    if (!isEmail(data.shEmail)) { document.getElementById('shEmail').closest('.form-row').classList.add('error'); ok = false; }
+    data.shCountry = document.getElementById('shCountry').value;
+    return ok ? data : null;
+  }
+  function validatePaymentStep() {
+    const name = document.getElementById('payName').value.trim();
+    const card = document.getElementById('payCard').value.replace(/\s+/g, '');
+    const exp = document.getElementById('payExp').value.trim();
+    const cvc = document.getElementById('payCvc').value.trim();
+    const nameRow = document.getElementById('payName').closest('.form-row');
+    const cardRow = document.getElementById('payCard').closest('.form-row');
+    const expRow = document.getElementById('payExp').closest('.form-row');
+    const cvcRow = document.getElementById('payCvc').closest('.form-row');
+    let ok = true;
+    nameRow.classList.toggle('error', !name); if (!name) ok = false;
+    cardRow.classList.toggle('error', !/^\d{13,19}$/.test(card)); if (!/^\d{13,19}$/.test(card)) ok = false;
+    expRow.classList.toggle('error', !/^\d{2}\/\d{2}$/.test(exp)); if (!/^\d{2}\/\d{2}$/.test(exp)) ok = false;
+    cvcRow.classList.toggle('error', !/^\d{3,4}$/.test(cvc)); if (!/^\d{3,4}$/.test(cvc)) ok = false;
+    return ok ? { method: CHECKOUT.method, name, last4: card.slice(-4) } : null;
+  }
+  function renderReview() {
+    const sh = CHECKOUT.shipping || {};
+    document.getElementById('reviewAddress').innerHTML = `
+      <h4>Shipping to</h4>
+      <div class="review-item">${escapeHtml(sh.shFirst || '')} ${escapeHtml(sh.shLast || '')}<br/>
+        ${escapeHtml(sh.shAddress || '')}<br/>${escapeHtml(sh.shCity || '')}, ${escapeHtml(sh.shState || '')} ${escapeHtml(sh.shZip || '')}<br/>${escapeHtml(sh.shCountry || '')}</div>
+      <button class="edit-link" data-go="1">Edit</button>`;
+    document.getElementById('reviewPayment').innerHTML = `
+      <h4>Paying with</h4>
+      <div class="review-item">${(CHECKOUT.payment && CHECKOUT.payment.method) || 'card'} · ending •••• ${(CHECKOUT.payment && CHECKOUT.payment.last4) || '----'}</div>
+      <button class="edit-link" data-go="2">Edit</button>`;
+    document.getElementById('reviewItems').innerHTML = `
+      <h4>Items</h4>
+      ${STORE.cart.map(i => `<div class="review-item">${escapeHtml(i.emoji)} ${escapeHtml(i.name)} × ${i.qty} — $${(priceToNumber(i.price) * i.qty).toFixed(2)}</div>`).join('')}`;
+    document.querySelectorAll('.edit-link').forEach(b => b.addEventListener('click', () => setCheckoutStep(Number(b.dataset.go))));
+  }
+  document.getElementById('toStep2Btn').addEventListener('click', () => {
+    const data = validateShippingStep(); if (!data) return;
+    CHECKOUT.shipping = data; setCheckoutStep(2);
+  });
+  document.getElementById('toStep3Btn').addEventListener('click', () => {
+    const data = validatePaymentStep(); if (!data) return;
+    CHECKOUT.payment = data; setCheckoutStep(3);
+  });
+  document.querySelectorAll('[data-back-step]').forEach(btn => {
+    btn.addEventListener('click', () => setCheckoutStep(Number(btn.dataset.backStep)));
+  });
+  document.querySelectorAll('.pay-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pay-option').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected'); CHECKOUT.method = btn.dataset.method;
+    });
+  });
+  document.getElementById('payCard').addEventListener('input', e => {
+    const v = e.target.value.replace(/\D/g, '').slice(0, 19);
+    e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+  });
+  document.getElementById('payExp').addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 4);
+    if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
+    e.target.value = v;
+  });
+  document.getElementById('payCvc').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4); });
+  document.getElementById('placeOrderBtn').addEventListener('click', () => {
+    const orderNum = 'ML-' + Math.floor(100000 + Math.random() * 900000);
+    const total = STORE.cart.reduce((s, i) => s + priceToNumber(i.price) * i.qty, 0);
+    const ship = total >= 40 ? 0 : 5.99;
+    const tax = total * 0.08;
+    const tq = STORE.cart.reduce((s, i) => s + i.qty, 0);
+    const today = new Date();
+    const fmt = d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const eta1 = new Date(today.getTime() + 3 * 86400000), eta2 = new Date(today.getTime() + 6 * 86400000);
+    document.getElementById('successOrderNum').textContent = '#' + orderNum;
+    document.getElementById('successEta').textContent = `${fmt(eta1)} – ${fmt(eta2)}`;
+    document.getElementById('successItems').textContent = `${tq} ${tq === 1 ? 'item' : 'items'}`;
+    document.getElementById('successTotal').textContent = '$' + (total + ship + tax).toFixed(2);
+    STORE.cart = []; saveStore(); updateBadges(); renderCart();
+    location.hash = 'success';
+  });
+  document.getElementById('checkoutBtn').addEventListener('click', () => {
+    if (STORE.cart.length === 0) return;
+    location.hash = 'checkout';
+  });
+
+  /* Hash router */
+  const VIEWS = {
+    home: 'viewHome', cart: 'viewCart', wishlist: 'viewWishlist', trail: 'viewTrail',
+    about: 'viewAbout', faq: 'viewFaq', contact: 'viewContact',
+    shipping: 'viewShipping', checkout: 'viewCheckout', success: 'viewSuccess'
+  };
+  function navigate(name) {
+    if (!VIEWS[name]) name = 'home';
+    if (name === 'checkout' && STORE.cart.length === 0) { location.hash = 'cart'; return; }
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(VIEWS[name]).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (name === 'cart') renderCart();
+    if (name === 'wishlist') renderWishlist();
+    if (name === 'trail') renderTrail();
+    if (name === 'faq') renderFaq('');
+    if (name === 'contact') resetContactForm();
+    if (name === 'checkout') openCheckout();
+  }
+  function onHashChange() { navigate((location.hash || '#home').slice(1)); }
+  window.addEventListener('hashchange', onHashChange);
+  document.getElementById('navLogo').addEventListener('click', () => { location.hash = 'home'; });
+  document.getElementById('navCart').addEventListener('click', () => { location.hash = 'cart'; });
+  document.getElementById('navWishlist').addEventListener('click', () => { location.hash = 'wishlist'; });
+  document.getElementById('navTrail').addEventListener('click', () => { location.hash = 'trail'; });
+  document.getElementById('heroStartTrailBtn').addEventListener('click', () => { location.hash = 'trail'; });
+  document.getElementById('discoverTrailBtn').addEventListener('click', () => { location.hash = 'trail'; });
+
+  /* Parallax */
+  const BG_NATURAL_RATIO = 12701 / 3334;
+  const PARALLAX = { heroSlower: 0.25, cardSlower: 0.12, smallSlower: 0.07 };
+  let bgK = 0;
+  function recalcBgParallax() {
+    const bgH = window.innerWidth * BG_NATURAL_RATIO;
+    const vh = window.innerHeight;
+    const max = document.body.scrollHeight - vh;
+    if (max <= 0) { bgK = 0; return; }
+    bgK = (bgH - vh - max) / max;
+  }
+  const lamaBalloon = document.getElementById('lamaBalloon');
+  const welcomeBubble = document.getElementById('welcomeBubble');
+  let ticking = false;
+  function onScrollUpdate() {
+    const y = window.scrollY;
+    const max = document.body.scrollHeight - window.innerHeight;
+    const prog = max > 0 ? Math.min(y / max, 1) : 0;
+    if (lamaBalloon) {
+      const start = 200, end = window.innerHeight - 320;
+      lamaBalloon.style.top = (start + (end - start) * prog) + 'px';
+    }
+    if (welcomeBubble) {
+      if (y > 100) { welcomeBubble.style.opacity = '0'; welcomeBubble.style.pointerEvents = 'none'; }
+      else { welcomeBubble.style.opacity = '1'; welcomeBubble.style.pointerEvents = ''; }
+    }
+    document.body.style.backgroundPosition = `center ${-(y * bgK).toFixed(2)}px`;
+    const hero = document.querySelector('.hero-slider');
+    if (hero) hero.style.setProperty('--parallax-y', `${y * PARALLAX.heroSlower}px`);
+    const cardOff = `${y * PARALLAX.cardSlower}px`;
+    document.querySelectorAll('.product-card').forEach(c => c.style.setProperty('--parallax-y', cardOff));
+    const smOff = `${y * PARALLAX.smallSlower}px`;
+    document.querySelectorAll('.trust-card').forEach(c => c.style.setProperty('--parallax-y', smOff));
+    ticking = false;
+  }
+  function onScroll() { if (!ticking) { requestAnimationFrame(onScrollUpdate); ticking = true; } }
+  function refresh() { recalcBgParallax(); requestAnimationFrame(onScrollUpdate); }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', refresh);
+  window.addEventListener('load', refresh);
+
+  /* Init */
+  loadStore(); updateBadges(); renderCart(); renderWishlist(); renderFaq(''); onHashChange(); refresh();
+})();
+</script>
+</body>
+</html>
