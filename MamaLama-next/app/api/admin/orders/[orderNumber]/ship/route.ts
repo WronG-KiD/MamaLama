@@ -36,10 +36,15 @@ export async function POST(
     trackingUrl: body.trackingUrl
   });
 
-  // Fire-and-forget shipping notification email
-  getOrder(params.orderNumber).then(updated => {
-    if (updated) sendShippingNotification(updated);
-  }).catch(() => { /* swallow */ });
+  // Await the shipping email — serverless functions terminate after the
+  // response, so fire-and-forget gets killed before Resend gets the request.
+  try {
+    const updated = await getOrder(params.orderNumber);
+    if (updated) await sendShippingNotification(updated);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('[ship] Email send failed (non-fatal):', err);
+  }
 
   return NextResponse.json({ ok: true });
 }

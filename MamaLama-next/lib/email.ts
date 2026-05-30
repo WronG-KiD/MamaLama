@@ -66,9 +66,16 @@ function layout(title: string, preheader: string, body: string): string {
 
 export async function sendOrderConfirmation(order: OrderDoc): Promise<void> {
   const r = getClient();
-  if (!r) return;
+  if (!r) {
+    console.warn('[email] Resend not configured (RESEND_API_KEY missing). Skipping confirmation.');
+    return;
+  }
   const to = order.shipping.email;
-  if (!to) return;
+  if (!to) {
+    console.warn('[email] Order has no shipping.email. Skipping confirmation. order:', order.orderNumber);
+    return;
+  }
+  console.log('[email] sendOrderConfirmation → to:', to, 'order:', order.orderNumber, 'from:', fromAddress);
 
   const itemsHtml = order.items.map(i => `
     <tr>
@@ -108,12 +115,13 @@ export async function sendOrderConfirmation(order: OrderDoc): Promise<void> {
     </p>`;
 
   try {
-    await r.emails.send({
+    const result = await r.emails.send({
       from: fromAddress,
       to,
       subject: `Order confirmed · ${order.orderNumber} 🦙`,
       html: layout(`Order ${order.orderNumber}`, `Thanks for your MamaLama order — total ${inrFmt(order.total)}`, body)
     });
+    console.log('[email] sendOrderConfirmation OK →', result);
   } catch (err) {
     // eslint-disable-next-line no-console
     console.warn('[email] sendOrderConfirmation failed:', err);
@@ -122,9 +130,16 @@ export async function sendOrderConfirmation(order: OrderDoc): Promise<void> {
 
 export async function sendShippingNotification(order: OrderDoc): Promise<void> {
   const r = getClient();
-  if (!r) return;
+  if (!r) {
+    console.warn('[email] Resend not configured. Skipping shipping notification.');
+    return;
+  }
   const to = order.shipping.email;
-  if (!to) return;
+  if (!to) {
+    console.warn('[email] Order has no shipping.email. Skipping shipping notification. order:', order.orderNumber);
+    return;
+  }
+  console.log('[email] sendShippingNotification → to:', to, 'order:', order.orderNumber);
 
   const trackingBlock = order.trackingNumber
     ? `
@@ -145,12 +160,13 @@ export async function sendShippingNotification(order: OrderDoc): Promise<void> {
     </p>`;
 
   try {
-    await r.emails.send({
+    const result = await r.emails.send({
       from: fromAddress,
       to,
       subject: `Shipped · ${order.orderNumber} 📦`,
       html: layout(`Shipped ${order.orderNumber}`, `Your MamaLama order is on its way`, body)
     });
+    console.log('[email] sendShippingNotification OK →', result);
   } catch (err) {
     // eslint-disable-next-line no-console
     console.warn('[email] sendShippingNotification failed:', err);

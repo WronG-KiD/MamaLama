@@ -73,11 +73,20 @@ export async function POST(req: Request) {
           razorpayPaymentId: razorpay_payment_id,
           paidAt: new Date().toISOString()
         });
-        // Re-read the updated doc and fire-and-forget the confirmation email.
-        // Don't await — email shouldn't block the success redirect.
-        getOrder(orderNumber).then(updated => {
-          if (updated) sendOrderConfirmation(updated);
-        }).catch(() => { /* swallow */ });
+        // Re-read the updated doc and send the confirmation email BEFORE
+        // returning. We can't fire-and-forget on Vercel Functions — the
+        // serverless runtime terminates as soon as the response is sent,
+        // killing any pending async work. Adding ~500ms to the response
+        // is a fair trade for reliable delivery.
+        try {
+          const updated = await getOrder(orderNumber);
+          if (updated) {
+            await sendOrderConfirmation(updated);
+          }
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.warn('[verify-payment] Email send failed (non-fatal):', err);
+        }
       }
     } catch (err) {
       // eslint-disable-next-line no-console
