@@ -25,6 +25,10 @@ interface OrderRow {
   refundedAt?: string;
   shipping: { firstName: string; lastName: string; email: string; city: string };
   items: Array<{ name: string; qty: number; emoji: string }>;
+  paymentMode?: 'prepaid' | 'cod';
+  codFee?: number;
+  codAmount?: number;
+  codCollected?: boolean;
 }
 
 const STATUS_COLOR: Record<OrderStatus, string> = {
@@ -113,6 +117,25 @@ export default function AdminPage() {
       const data = await res.json();
       if (!res.ok) { setActionMsg('❌ ' + (data.error || 'Failed')); return; }
       setActionMsg('✓ Shipped ' + orderNumber);
+      loadOrders();
+    } catch (err) {
+      setActionMsg('❌ ' + (err instanceof Error ? err.message : 'Network error'));
+    }
+  }
+
+  async function markCodCollected(orderNumber: string) {
+    if (!user) return;
+    if (!window.confirm(`Confirm cash collected for order ${orderNumber}? This marks the order as delivered.`)) return;
+    setActionMsg('Marking COD collected…');
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch(`/api/admin/orders/${orderNumber}/cod-collected`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (!res.ok) { setActionMsg('❌ ' + (data.error || 'Failed')); return; }
+      setActionMsg('✓ COD collected & delivered: ' + orderNumber);
       loadOrders();
     } catch (err) {
       setActionMsg('❌ ' + (err instanceof Error ? err.message : 'Network error'));
@@ -269,6 +292,14 @@ export default function AdminPage() {
                         color: 'white', padding: '3px 10px', borderRadius: 12,
                         fontSize: 12, fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.3
                       }}>{o.status}</span>
+                      {o.paymentMode === 'cod' && (
+                        <div style={{
+                          marginTop: 4, fontSize: 11, fontWeight: 600,
+                          color: o.codCollected ? '#10b981' : '#ef4444'
+                        }}>
+                          💵 COD {o.codCollected ? '· collected' : `· ₹${o.codAmount?.toFixed(0)} due`}
+                        </div>
+                      )}
                     </td>
                     <td style={td}>
                       {o.shipping.firstName} {o.shipping.lastName}
@@ -298,7 +329,12 @@ export default function AdminPage() {
                           Ship
                         </button>
                       )}
-                      {(o.status === 'paid' || o.status === 'shipped') && (
+                      {o.status === 'shipped' && o.paymentMode === 'cod' && !o.codCollected && (
+                        <button className="btn-secondary" style={{ ...btnSm, color: '#10b981', borderColor: '#a7f3d0' }} onClick={() => markCodCollected(o.orderNumber)}>
+                          Mark Cash Collected
+                        </button>
+                      )}
+                      {(o.status === 'paid' || o.status === 'shipped') && o.paymentMode !== 'cod' && (
                         <button className="btn-secondary" style={{ ...btnSm, marginLeft: 6, color: '#ef4444', borderColor: '#fecaca' }} onClick={() => refundOrder(o.orderNumber)}>
                           Refund
                         </button>
