@@ -53,10 +53,7 @@ export default function TierBanners() {
               <div className="tier-banner-inner-static">
                 <div className="rank-emoji">{b.emoji}</div>
                 <div className="rank-letter">{b.tier}</div>
-                <div>
-                  <div className="rank-title">{b.rankTitle}</div>
-                  <div className="tap-hint">{isOpen ? 'Tap to close ✕' : 'Tap to view ✨'}</div>
-                </div>
+                <div className="rank-title">{b.rankTitle}</div>
               </div>
             </div>
           );
