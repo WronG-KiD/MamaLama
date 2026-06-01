@@ -4258,64 +4258,53 @@
   }
 
   /* ============================================
-     Tier product hover popup — shows IQ / brain benefit
+     Tier-level brain-benefit / IQ card — lives in the drawer header,
+     visible always (replaces the old hover popup that blocked products).
      ============================================ */
   .tier-product-card { position: relative; }
-  .tier-product-hover-popup {
-    position: absolute;
-    inset: 0;
-    border-radius: 18px;
-    background: linear-gradient(160deg, rgba(43, 33, 71, 0.96), rgba(89, 56, 145, 0.96));
+  .tier-drawer-iq-card {
+    margin-top: 14px;
+    background: linear-gradient(135deg, #2b2147, #4c2a8f);
     color: white;
-    padding: 18px 18px 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.28s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    z-index: 5;
+    border-radius: 16px;
+    padding: 14px 18px 16px;
+    position: relative;
     overflow: hidden;
+    box-shadow: 0 10px 24px rgba(43, 33, 71, 0.35);
   }
-  .tier-product-hover-popup::before {
+  .tier-drawer-iq-card::before {
     content: '';
     position: absolute;
     inset: -40%;
-    background: radial-gradient(circle at 50% 0%, rgba(255, 217, 61, 0.18), transparent 60%);
+    background: radial-gradient(circle at 20% 0%, rgba(255, 217, 61, 0.18), transparent 60%);
     pointer-events: none;
   }
-  .tier-product-card:hover .tier-product-hover-popup,
-  .tier-product-card:focus-within .tier-product-hover-popup {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .hover-popup-headline {
+  .iq-card-headline {
     font-family: var(--font-bubblegum), cursive;
-    font-size: 19px;
-    margin-bottom: 8px;
+    font-size: 18px;
+    margin-bottom: 6px;
     color: #ffd93d;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
     position: relative;
   }
-  .hover-popup-benefit {
+  .iq-card-benefit {
     font-size: 13px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: rgba(255, 255, 255, 0.92);
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     position: relative;
   }
-  .hover-popup-iq {
+  .iq-card-iq {
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.22);
     border-radius: 12px;
-    padding: 10px 12px;
-    font-size: 12px;
+    padding: 9px 12px;
+    font-size: 12.5px;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.95);
     position: relative;
   }
-  .hover-popup-iq strong { color: #ffd93d; }
+  .iq-card-iq strong { color: #ffd93d; }
 
   /* ============================================
      Coming Soon hero (Code Chefs + Merchandise)

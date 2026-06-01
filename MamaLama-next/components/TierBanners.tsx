@@ -83,6 +83,14 @@ export default function TierBanners() {
                   <span className="meta-pill">{TIER_TITLES[openTier as Tier]}</span>
                   <span className="meta-pill">⭐ {activeBanner.xp} XP per solve</span>
                 </div>
+                {/* Brain benefit / IQ description — now lives here, visible to everyone */}
+                <div className="tier-drawer-iq-card">
+                  <div className="iq-card-headline">🧠 {TIER_BENEFITS[openTier as Tier].headline}</div>
+                  <p className="iq-card-benefit">{TIER_BENEFITS[openTier as Tier].benefit}</p>
+                  <div className="iq-card-iq">
+                    <strong>IQ boost:</strong> {TIER_BENEFITS[openTier as Tier].iqBoost}
+                  </div>
+                </div>
               </div>
               <button
                 className="tier-drawer-close"
@@ -95,7 +103,6 @@ export default function TierBanners() {
               {activeProducts.map((p, i) => {
                 const payload = { ...p, tier: openTier as Tier };
                 const isWished = !!store.wishlist.find(w => w.wishlistId === makeCartId(payload));
-                const benefit = TIER_BENEFITS[openTier as Tier];
                 return (
                   <div key={p.name} className="tier-product-card" style={{ animationDelay: `${i * 40}ms` }}>
                     <div className={`tier-product-thumb ${activeBanner.cssClass}`}>
@@ -126,14 +133,6 @@ export default function TierBanners() {
                             }}
                           >+ Cart</button>
                         </div>
-                      </div>
-                    </div>
-                    {/* Hover-only popup with the brain-benefit / IQ explainer */}
-                    <div className="tier-product-hover-popup">
-                      <div className="hover-popup-headline">🧠 {benefit.headline}</div>
-                      <p className="hover-popup-benefit">{benefit.benefit}</p>
-                      <div className="hover-popup-iq">
-                        <strong>IQ boost:</strong> {benefit.iqBoost}
                       </div>
                     </div>
                   </div>
