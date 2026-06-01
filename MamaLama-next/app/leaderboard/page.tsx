@@ -1,9 +1,10 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useStore } from '@/lib/StoreContext';
-import { LEGENDS, type Legend } from '@/lib/legends';
+import { LEGENDS } from '@/lib/legends';
+import LeaderboardStoryModal from '@/components/LeaderboardStoryModal';
 import type { Tier } from '@/types';
 
 interface Row {
@@ -44,6 +45,7 @@ function rankRowClass(rank: number, isYou: boolean): string {
 
 export default function LeaderboardPage() {
   const { store, ready } = useStore();
+  const [storyOpen, setStoryOpen] = useState(false);
 
   const ranked = useMemo<Row[]>(() => {
     // Merge fictional legends with real user profiles
@@ -101,6 +103,13 @@ export default function LeaderboardPage() {
         <div className="page-header">
           <h1>🏆 Sky Trail Leaderboard</h1>
           <p>This week&apos;s brainiest Llamas. Ranked by total XP earned from solves.</p>
+          {ranked.length > 0 && (
+            <div style={{ marginTop: 14 }}>
+              <button className="btn-primary" onClick={() => setStoryOpen(true)}>
+                ▶ Watch Top 10 Stories
+              </button>
+            </div>
+          )}
         </div>
 
         {yourRank !== undefined && (
@@ -155,6 +164,21 @@ export default function LeaderboardPage() {
           </div>
         )}
       </section>
+
+      <LeaderboardStoryModal
+        open={storyOpen}
+        onClose={() => setStoryOpen(false)}
+        champions={ranked.slice(0, 10).map(r => ({
+          rank: r.rank,
+          name: r.name,
+          title: r.title,
+          tier: r.tier,
+          emoji: r.emoji,
+          xp: r.xp,
+          puzzle: r.puzzle,
+          isYou: r.isYou
+        }))}
+      />
     </div>
   );
 }

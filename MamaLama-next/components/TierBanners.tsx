@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { TIER_BANNERS } from '@/lib/tierBanners';
+import { TIER_BANNERS, TIER_BENEFITS } from '@/lib/tierBanners';
 import { TIER_PRODUCTS, TIER_TITLES } from '@/lib/products';
 import { useStore } from '@/lib/StoreContext';
 import { useUI } from '@/lib/UIContext';
@@ -32,12 +32,12 @@ export default function TierBanners() {
   const activeProducts = openTier ? TIER_PRODUCTS[openTier] : [];
 
   return (
-    <section className="spaced">
+    <section className="spaced" id="popular-stem-kits">
       <div className="section-header">
-        <h2>Popular Puzzles 🧩</h2>
+        <h2 className="wiggle-heading">Popular STEM Kits <span className="wiggle-emoji">🚀</span></h2>
       </div>
 
-      <div className="tier-banner-grid" id="tierBannerGrid">
+      <div className="tier-banner-grid" id="tier-banner-grid">
         {TIER_BANNERS.map(b => {
           const isOpen = openTier === b.tier;
           return (
@@ -95,6 +95,7 @@ export default function TierBanners() {
               {activeProducts.map((p, i) => {
                 const payload = { ...p, tier: openTier as Tier };
                 const isWished = !!store.wishlist.find(w => w.wishlistId === makeCartId(payload));
+                const benefit = TIER_BENEFITS[openTier as Tier];
                 return (
                   <div key={p.name} className="tier-product-card" style={{ animationDelay: `${i * 40}ms` }}>
                     <div className={`tier-product-thumb ${activeBanner.cssClass}`}>
@@ -125,6 +126,14 @@ export default function TierBanners() {
                             }}
                           >+ Cart</button>
                         </div>
+                      </div>
+                    </div>
+                    {/* Hover-only popup with the brain-benefit / IQ explainer */}
+                    <div className="tier-product-hover-popup">
+                      <div className="hover-popup-headline">🧠 {benefit.headline}</div>
+                      <p className="hover-popup-benefit">{benefit.benefit}</p>
+                      <div className="hover-popup-iq">
+                        <strong>IQ boost:</strong> {benefit.iqBoost}
                       </div>
                     </div>
                   </div>
