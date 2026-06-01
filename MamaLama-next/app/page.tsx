@@ -2,26 +2,7 @@ import Link from 'next/link';
 import CategoryNav from '@/components/CategoryNav';
 import HeroSlider from '@/components/HeroSlider';
 import TierBanners from '@/components/TierBanners';
-
-const LEGENDS = [
-  { rank: 1,  name: 'Aarav', title: 'Prophet of Puzzles',  tier: 'S', puzzle: 'Galactic Maze Master', emoji: '👦🏽' },
-  { rank: 2,  name: 'Maya',  title: 'Galaxy Brain',        tier: 'S', puzzle: 'Cosmic Logic Cube',    emoji: '👧🏼' },
-  { rank: 3,  name: 'Liam',  title: 'Sage of Solutions',   tier: 'S', puzzle: 'Atlas of Riddles',     emoji: '🧒🏻' },
-  { rank: 4,  name: 'Zara',  title: 'Llama Legend',        tier: 'S', puzzle: 'Mystery Mountain',     emoji: '👧🏽' },
-  { rank: 5,  name: 'Noah',  title: 'Brain Boss',          tier: 'A', puzzle: 'Space Explorer Puzzle',emoji: '👦🏻' },
-  { rank: 6,  name: 'Aisha', title: 'Puzzle Prodigy',      tier: 'A', puzzle: 'Dragon Quest 100',     emoji: '👧🏿' },
-  { rank: 7,  name: 'Diego', title: 'Mind Maestro',        tier: 'A', puzzle: 'Ocean Depths',         emoji: '🧒🏽' },
-  { rank: 8,  name: 'Ella',  title: 'Logic Legend',        tier: 'A', puzzle: 'Forest Friends 80',    emoji: '👧🏻' },
-  { rank: 9,  name: 'Kai',   title: 'Master at Work',      tier: 'A', puzzle: 'Pyramid Path',         emoji: '👦🏿' },
-  { rank: 10, name: 'Priya', title: 'Brain Buddy Supreme', tier: 'B', puzzle: 'Rainbow Logic Cubes',  emoji: '👧🏽' }
-];
-
-function rankRowClass(rank: number) {
-  if (rank === 1) return 'top';
-  if (rank === 2) return 'top-2';
-  if (rank === 3) return 'top-3';
-  return '';
-}
+import { LEGENDS } from '@/lib/legends';
 
 function rankMedal(rank: number) {
   if (rank === 1) return '🥇';
@@ -31,6 +12,9 @@ function rankMedal(rank: number) {
 }
 
 export default function HomePage() {
+  // Top 3 by XP for the homepage teaser
+  const top3 = [...LEGENDS].sort((a, b) => b.xp - a.xp).slice(0, 3);
+
   return (
     <>
       <CategoryNav />
@@ -60,24 +44,32 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* Compact leaderboard teaser — top 3 only, full board lives at /leaderboard */}
         <section className="leaderboard-section">
           <div className="leaderboard-header">
-            <h2>🏆 Sky Trail Leaderboard</h2>
-            <p>This week&apos;s brainiest Llamas. Could your little one be next?</p>
+            <h2>🏆 This Week&apos;s Top 3 Champions</h2>
+            <p>Top XP earners on the Sky Trail. Climb the ranks!</p>
           </div>
-          <div className="leaderboard-list">
-            {LEGENDS.map(l => (
-              <div key={l.rank} className={`leader-row ${rankRowClass(l.rank)}`}>
-                <div className="leader-rank">{rankMedal(l.rank)}</div>
-                <div className="leader-avatar">{l.emoji}</div>
-                <div className="leader-info">
-                  <div className="leader-name">{l.name}</div>
-                  <div className="leader-title">{l.title}</div>
+          <div className="leaderboard-list" style={{ maxWidth: 760, margin: '0 auto' }}>
+            {top3.map((l, idx) => {
+              const rank = idx + 1;
+              const rowClass = rank === 1 ? 'top' : rank === 2 ? 'top-2' : 'top-3';
+              return (
+                <div key={l.name} className={`leader-row ${rowClass}`}>
+                  <div className="leader-rank">{rankMedal(rank)}</div>
+                  <div className="leader-avatar">{l.emoji}</div>
+                  <div className="leader-info">
+                    <div className="leader-name">{l.name}</div>
+                    <div className="leader-title">{l.title}</div>
+                  </div>
+                  <div className="leader-puzzle"><strong>{l.xp} XP</strong></div>
+                  <div className={`leader-tier ${l.tier.toLowerCase()}`}>{l.tier}</div>
                 </div>
-                <div className="leader-puzzle">solved <strong>{l.puzzle}</strong></div>
-                <div className={`leader-tier ${l.tier.toLowerCase()}`}>{l.tier}</div>
-              </div>
-            ))}
+              );
+            })}
+          </div>
+          <div className="trail-cta" style={{ marginTop: 24 }}>
+            <Link href="/leaderboard" className="btn-primary">See full leaderboard →</Link>
           </div>
         </section>
       </div>

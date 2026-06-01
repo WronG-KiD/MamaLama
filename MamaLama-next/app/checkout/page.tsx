@@ -37,6 +37,8 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<Partial<Record<keyof ShippingForm, string>>>({});
   const [processing, setProcessing] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [paymentMode, setPaymentMode] = useState<'prepaid' | 'cod'>('prepaid');
+  const COD_FEE = 100;
 
   // Redirect to /cart if it's empty (only after hydration)
   useEffect(() => {
@@ -76,7 +78,7 @@ export default function CheckoutPage() {
       const res = await fetch('/api/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: store.cart, shipping })
+        body: JSON.stringify({ items: store.cart, shipping, paymentMode })
       });
       const data = await res.json();
       if (!res.ok) {
@@ -97,7 +99,9 @@ export default function CheckoutPage() {
         amount: data.amount,
         currency: data.currency,
         name: 'MamaLama',
-        description: `${store.cart.length} item${store.cart.length === 1 ? '' : 's'}`,
+        description: paymentMode === 'cod'
+          ? `COD commitment fee · ${store.cart.length} item${store.cart.length === 1 ? '' : 's'}`
+          : `${store.cart.length} item${store.cart.length === 1 ? '' : 's'}`,
         order_id: data.orderId,
         image: '/logo.png',
         prefill: {
@@ -253,9 +257,58 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="review-block">
-                  <h4>Payment</h4>
-                  <div className="review-item">
-                    Pay securely via Razorpay — UPI, cards, netbanking, wallets, EMI.
+                  <h4>Payment method</h4>
+                  <div style={{ display: 'grid', gap: 10, marginTop: 6 }}>
+                    <label className="pay-mode-option" style={{
+                      display: 'flex', alignItems: 'flex-start', gap: 12,
+                      padding: 14, borderRadius: 12, cursor: 'pointer',
+                      border: paymentMode === 'prepaid' ? '2px solid var(--pop-purple)' : '2px solid var(--sky-lavender)',
+                      background: paymentMode === 'prepaid' ? 'linear-gradient(135deg, #fff5fb, #ece6ff)' : 'white'
+                    }}>
+                      <input
+                        type="radio"
+                        name="paymentMode"
+                        value="prepaid"
+                        checked={paymentMode === 'prepaid'}
+                        onChange={() => setPaymentMode('prepaid')}
+                        style={{ marginTop: 4 }}
+                      />
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 600, color: 'var(--text-dark)', marginBottom: 2 }}>
+                          💳 Pay Online &nbsp;<span style={{ fontSize: 12, color: 'var(--pop-purple)', fontWeight: 700 }}>RECOMMENDED</span>
+                        </div>
+                        <div style={{ fontSize: 13, color: 'var(--text-soft)', lineHeight: 1.5 }}>
+                          Pay <strong>₹{total.toFixed(2)}</strong> securely now via Razorpay — UPI, cards, netbanking, wallets. Order ships faster.
+                        </div>
+                      </div>
+                    </label>
+
+                    <label className="pay-mode-option" style={{
+                      display: 'flex', alignItems: 'flex-start', gap: 12,
+                      padding: 14, borderRadius: 12, cursor: 'pointer',
+                      border: paymentMode === 'cod' ? '2px solid var(--pop-purple)' : '2px solid var(--sky-lavender)',
+                      background: paymentMode === 'cod' ? 'linear-gradient(135deg, #fff5fb, #ece6ff)' : 'white'
+                    }}>
+                      <input
+                        type="radio"
+                        name="paymentMode"
+                        value="cod"
+                        checked={paymentMode === 'cod'}
+                        onChange={() => setPaymentMode('cod')}
+                        style={{ marginTop: 4 }}
+                      />
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 600, color: 'var(--text-dark)', marginBottom: 2 }}>
+                          💵 Cash on Delivery
+                        </div>
+                        <div style={{ fontSize: 13, color: 'var(--text-soft)', lineHeight: 1.5 }}>
+                          Pay a <strong>₹{COD_FEE} commitment fee</strong> online now. Pay <strong>₹{total.toFixed(2)}</strong> cash when your order arrives.
+                          <div style={{ marginTop: 6, fontSize: 11.5, color: '#ef4444', fontWeight: 600 }}>
+                            ⚠️ The ₹{COD_FEE} fee is non-refundable, even if the order is cancelled or refused at delivery.
+                          </div>
+                        </div>
+                      </div>
+                    </label>
                   </div>
                 </div>
 
@@ -286,7 +339,11 @@ export default function CheckoutPage() {
                     onClick={payNow}
                     disabled={processing}
                   >
-                    {processing ? 'Opening Razorpay…' : `Pay $${total.toFixed(2)} ✨`}
+                    {processing
+                      ? 'Opening Razorpay…'
+                      : paymentMode === 'cod'
+                        ? `Pay ₹${COD_FEE} commitment fee ✨`
+                        : `Pay ₹${total.toFixed(2)} ✨`}
                   </button>
                 </div>
               </div>
@@ -302,10 +359,27 @@ export default function CheckoutPage() {
                 <span className="mini-price">${(priceToNumber(i.price) * i.qty).toFixed(2)}</span>
               </div>
             ))}
-            <div className="summary-row"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
-            <div className="summary-row"><span>Shipping</span><span>{shippingFee === 0 ? 'Free' : '$' + shippingFee.toFixed(2)}</span></div>
-            <div className="summary-row"><span>Tax</span><span>${tax.toFixed(2)}</span></div>
-            <div className="summary-row total"><span>Total</span><span>${total.toFixed(2)}</span></div>
+            <div className="summary-row"><span>Subtotal</span><span>₹{subtotal.toFixed(2)}</span></div>
+            <div className="summary-row"><span>Shipping</span><span>{shippingFee === 0 ? 'Free' : '₹' + shippingFee.toFixed(2)}</span></div>
+            <div className="summary-row"><span>Tax</span><span>₹{tax.toFixed(2)}</span></div>
+            <div className="summary-row total"><span>Total</span><span>₹{total.toFixed(2)}</span></div>
+            {paymentMode === 'cod' && (
+              <>
+                <div style={{
+                  marginTop: 14, padding: 12,
+                  background: 'linear-gradient(135deg, #fff5fb, #ece6ff)',
+                  borderRadius: 12, fontSize: 12.5, lineHeight: 1.5,
+                  border: '1px dashed var(--pop-purple)'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 600, color: 'var(--pop-purple)' }}>
+                    <span>Pay online now</span><span>₹{COD_FEE.toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--text-dark)' }}>
+                    <span>Cash on delivery</span><span>₹{total.toFixed(2)}</span>
+                  </div>
+                </div>
+              </>
+            )}
           </aside>
         </div>
       </section>

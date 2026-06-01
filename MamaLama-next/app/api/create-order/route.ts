@@ -22,6 +22,10 @@ const USD_TO_INR = 1; // i.e. "$14.99" → ₹14.99 → 1499 paise
 const SHIPPING_FREE_THRESHOLD = 40;
 const SHIPPING_FEE = 5.99;
 const TAX_RATE = 0.08;
+// Cash-on-Delivery: customer pays a non-refundable commitment fee online,
+// then the FULL order amount in cash at delivery. The fee is over and above
+// the order total (a convenience surcharge).
+const COD_FEE = 100; // ₹100, charged via Razorpay at checkout
 
 function findProductPrice(tier: string | undefined, name: string): number | null {
   if (!tier) return null;
@@ -39,7 +43,7 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: { items?: CartItem[]; shipping?: Record<string, string> } = {};
+  let body: { items?: CartItem[]; shipping?: Record<string, string>; paymentMode?: 'prepaid' | 'cod' } = {};
   try {
     body = await req.json();
   } catch {
@@ -71,8 +75,12 @@ export async function POST(req: Request) {
   const tax = subtotal * TAX_RATE;
   const total = subtotal + shippingFee + tax;
 
-  // Convert to paise (Razorpay's smallest unit for INR)
-  const amountPaise = Math.round(total * USD_TO_INR * 100);
+  // Decide what Razorpay actually charges right now:
+  //   - prepaid: full total
+  //   - cod: just the COD_FEE (non-refundable commitment)
+  const paymentMode = body.paymentMode === 'cod' ? 'cod' : 'prepaid';
+  const chargeNow = paymentMode === 'cod' ? COD_FEE : total;
+  const amountPaise = Math.round(chargeNow * USD_TO_INR * 100);
 
   // Short receipt id — Razorpay caps at 40 chars
   const receipt = 'ML-' + Date.now().toString(36) + '-' + Math.floor(Math.random() * 1e4);
@@ -117,7 +125,13 @@ export async function POST(req: Request) {
           tax: Number(tax.toFixed(2)),
           total: Number(total.toFixed(2)),
           amountPaise,
-          currency: 'INR'
+          currency: 'INR',
+          paymentMode,
+          ...(paymentMode === 'cod' ? {
+            codFee: COD_FEE,
+            codAmount: Number(total.toFixed(2)),
+            codCollected: false
+          } : {})
         });
         orderNumber = saved.orderNumber;
       } catch (err) {
@@ -134,11 +148,15 @@ export async function POST(req: Request) {
       receipt: rzpOrder.receipt,
       key: RAZORPAY_KEY_ID,
       orderNumber, // null if Firestore isn't configured yet
+      paymentMode,
       breakdown: {
         subtotal: Number(subtotal.toFixed(2)),
         shipping: Number(shippingFee.toFixed(2)),
         tax: Number(tax.toFixed(2)),
-        total: Number(total.toFixed(2))
+        total: Number(total.toFixed(2)),
+        chargeNow,                                   // what Razorpay actually charged
+        codAmount: paymentMode === 'cod' ? Number(total.toFixed(2)) : 0,
+        codFee: paymentMode === 'cod' ? COD_FEE : 0
       }
     });
   } catch (err) {

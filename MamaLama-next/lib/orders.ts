@@ -23,6 +23,8 @@ import type { CartItem } from '@/types';
 export type OrderStatus =
   | 'pending' | 'paid' | 'shipped' | 'delivered' | 'refunded' | 'failed';
 
+export type PaymentMode = 'prepaid' | 'cod';
+
 export interface OrderShipping {
   firstName: string; lastName: string; email: string; phone: string;
   address: string; city: string; state: string; zip: string; country: string;
@@ -38,12 +40,18 @@ export interface OrderDoc {
   subtotal: number;
   shippingFee: number;
   tax: number;
-  total: number;
-  amountPaise: number;
+  total: number;              // full order total (product cost the customer owes us in total)
+  amountPaise: number;         // what Razorpay actually charged at checkout (₹100 for COD, full for prepaid)
   currency: string;
+  paymentMode: PaymentMode;    // 'prepaid' (full upfront) or 'cod' (₹100 fee + cash on delivery)
+  codFee?: number;             // for cod: the non-refundable fee paid online (₹100)
+  codAmount?: number;          // for cod: cash to collect on delivery (= total - codFee... no, = total — the prepay is a separate non-refundable fee on TOP)
+  codCollected?: boolean;      // true once delivery agent confirms cash received
+  codCollectedAt?: string;
   createdAt: string;
   paidAt?: string;
   shippedAt?: string;
+  deliveredAt?: string;
   refundedAt?: string;
   failedAt?: string;
   trackingNumber?: string;
