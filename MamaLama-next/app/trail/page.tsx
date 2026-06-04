@@ -424,9 +424,9 @@ export default function TrailPage() {
 
             {onbStep === 1 && (
               <div className="onboarding-step active">
-                <h2>What&apos;s your child&apos;s name? 🦙</h2>
-                <p>This is how they&apos;ll appear on the leaderboard.</p>
-                <label className="onb-label">Their name</label>
+                <h2>What&apos;s your name? 🦙</h2>
+                <p>This is how you&apos;ll appear on the leaderboard.</p>
+                <label className="onb-label">Your name</label>
                 <input
                   className="onb-input"
                   placeholder="e.g. Aarav"
@@ -447,8 +447,8 @@ export default function TrailPage() {
 
             {onbStep === 2 && (
               <div className="onboarding-step active">
-                <h2>How old are they?</h2>
-                <p>So we can recommend the right puzzles for their age.</p>
+                <h2>How old are you?</h2>
+                <p>So we can recommend the right puzzles for your age.</p>
                 <div className="age-picker">
                   {AGES.map(age => (
                     <button
@@ -471,8 +471,8 @@ export default function TrailPage() {
 
             {onbStep === 3 && (
               <div className="onboarding-step active">
-                <h2>Pick an avatar 🎨</h2>
-                <p>Choose one that feels like {onbName || 'them'}.</p>
+                <h2>Pick your avatar 🎨</h2>
+                <p>Choose one that feels like you.</p>
                 <div className="avatar-grid">
                   {AVATARS.map(a => (
                     <button

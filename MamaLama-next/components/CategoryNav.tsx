@@ -12,7 +12,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { emoji: '🚀', label: 'STEM Kits',   href: '/',            scrollTarget: '#tier-banner-grid' },
-  { emoji: '👨‍🍳', label: "Code Chefs",  href: '/code-chefs' },
+  { emoji: '🧸', label: 'Code Cubs',   href: '/code-cubs' },
   { emoji: '🦙', label: 'Merchandise', href: '/merchandise' }
 ];
 
