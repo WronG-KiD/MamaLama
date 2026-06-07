@@ -1,9 +1,10 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useStore } from '@/lib/StoreContext';
 import { LEGENDS } from '@/lib/legends';
+import { fetchPublicLeaderboard, type PublicLeaderboardEntry } from '@/lib/firestoreProfiles';
 import LeaderboardStoryModal from '@/components/LeaderboardStoryModal';
 import type { Tier } from '@/types';
 
@@ -46,14 +47,55 @@ function rankRowClass(rank: number, isYou: boolean): string {
 export default function LeaderboardPage() {
   const { store, ready } = useStore();
   const [storyOpen, setStoryOpen] = useState(false);
+  const [globalEntries, setGlobalEntries] = useState<PublicLeaderboardEntry[]>([]);
+  const [loadingGlobal, setLoadingGlobal] = useState(true);
+
+  // Pull the global public leaderboard from Firestore
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const entries = await fetchPublicLeaderboard(50);
+      if (!cancelled) {
+        setGlobalEntries(entries);
+        setLoadingGlobal(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const ranked = useMemo<Row[]>(() => {
-    // Merge fictional legends with real user profiles
-    const rows: Omit<Row, 'rank' | 'isYou'>[] = [];
+    // Merge sources:
+    //   1. Real cross-user profiles from Firestore (globalEntries)
+    //   2. Your own profiles (in case they haven't synced yet, or Firebase isn't configured)
+    //   3. Fictional legends (always shown to seed the board)
+    // Deduplicate by profile id so the same kid doesn't appear twice.
 
-    // Real profiles (from localStorage)
+    const rows: Omit<Row, 'rank' | 'isYou'>[] = [];
+    const seenIds = new Set<string>();
+    const myProfileIds = ready ? new Set(store.profiles.map(p => p.id)) : new Set<string>();
+    const activeId = store.activeProfileId;
+
+    // 1) Global Firestore entries (other people's profiles)
+    for (const e of globalEntries) {
+      if (seenIds.has(e.profileId)) continue;
+      seenIds.add(e.profileId);
+      rows.push({
+        name: e.name,
+        title: TIER_LABEL[e.tier] || e.tier,
+        tier: e.tier,
+        puzzle: '—',
+        emoji: e.avatar,
+        xp: e.xp,
+        _profileId: e.profileId
+      } as Omit<Row, 'rank' | 'isYou'> & { _profileId?: string });
+    }
+
+    // 2) My own local profiles — usually these are already in globalEntries
+    //    after sync, but add any missing ones
     if (ready) {
       for (const p of store.profiles) {
+        if (seenIds.has(p.id)) continue;
+        seenIds.add(p.id);
         const bestSolve = p.solves.length > 0
           ? p.solves[p.solves.length - 1].productName
           : '—';
@@ -63,12 +105,13 @@ export default function LeaderboardPage() {
           tier: p.tier as Tier,
           puzzle: bestSolve,
           emoji: p.avatar,
-          xp: p.xp
-        });
+          xp: p.xp,
+          _profileId: p.id
+        } as Omit<Row, 'rank' | 'isYou'> & { _profileId?: string });
       }
     }
 
-    // Fictional legends as seed data
+    // 3) Fictional legends (seed)
     for (const l of LEGENDS) {
       rows.push({
         name: l.name,
@@ -80,19 +123,15 @@ export default function LeaderboardPage() {
       });
     }
 
-    // Sort by XP descending
     rows.sort((a, b) => b.xp - a.xp);
 
-    // Assign ranks + mark "you" rows
-    const activeId = store.activeProfileId;
-    const activeName = store.profiles.find(p => p.id === activeId)?.name;
-
-    return rows.map((row, i) => ({
-      ...row,
-      rank: i + 1,
-      isYou: !!(activeName && row.name === activeName && row.xp === store.profiles.find(p => p.name === activeName)?.xp)
-    }));
-  }, [store, ready]);
+    return rows.map((row, i) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const profileId = (row as any)._profileId as string | undefined;
+      const isYou = !!(profileId && myProfileIds.has(profileId) && profileId === activeId);
+      return { ...row, rank: i + 1, isYou };
+    });
+  }, [store, ready, globalEntries]);
 
   const yourRank = ranked.find(r => r.isYou)?.rank;
 

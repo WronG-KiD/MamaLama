@@ -27,10 +27,6 @@ export function BalloonMascot() {
   );
 }
 
-export function WelcomeBubble() {
-  return (
-    <div className="hero-welcome-bubble" id="welcomeBubble">
-      Hi friend! Ready to play and learn? 🌟
-    </div>
-  );
-}
+// WelcomeBubble lives in its own file because it needs 'use client' for useStore.
+// Re-export for backwards compatibility with the import in layout.tsx.
+export { WelcomeBubble } from './WelcomeBubble';

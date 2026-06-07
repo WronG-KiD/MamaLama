@@ -6,6 +6,7 @@ import { useStore } from '@/lib/StoreContext';
 import { useUI } from '@/lib/UIContext';
 import type { Profile, Solve, Tier } from '@/types';
 import { TIER_XP } from '@/lib/products';
+import { tierPromotionBurst } from '@/lib/confetti';
 
 const AVATARS = ['🦙','🐻','🦊','🐰','🦄','🐉','🦕','🐧','🦁','🐯','🐼','🐸'];
 const AGES = [2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -94,6 +95,9 @@ export default function TrailPage() {
   const [solveDifficulty, setSolveDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
   const [solveTime, setSolveTime] = useState('');
   const [solveResult, setSolveResult] = useState<{ xp: number; promoted?: Tier } | null>(null);
+
+  // Tier promotion fanfare (full-screen celebration)
+  const [fanfare, setFanfare] = useState<{ tier: Tier; name: string } | null>(null);
 
   const activeProfile = useMemo(() =>
     store.profiles.find(p => p.id === store.activeProfileId) || null,
@@ -196,6 +200,17 @@ export default function TrailPage() {
 
     setSolveResult({ xp: xpEarned, promoted });
     // Don't close immediately — show the result, let user close
+
+    // 🎉 If the kid was promoted, kick off the fanfare modal + confetti
+    if (promoted) {
+      // Small delay so the solve modal animation finishes first
+      setTimeout(() => {
+        setShowSolve(false);   // close solve modal so fanfare is fullscreen
+        setSolveResult(null);
+        setFanfare({ tier: promoted, name: activeProfile.name });
+        tierPromotionBurst();
+      }, 800);
+    }
   }
 
   function closeSolveModal() {
@@ -587,6 +602,33 @@ export default function TrailPage() {
                 </div>
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* ===== TIER PROMOTION FANFARE ===== */}
+      {fanfare && (
+        <div
+          className="fanfare-overlay"
+          onClick={() => { setFanfare(null); tierPromotionBurst(); }}
+        >
+          <div className="fanfare-card" onClick={(e) => e.stopPropagation()}>
+            <div className="fanfare-stars">✨ ⭐ 🌟 ✨</div>
+            <div className="fanfare-headline">🎉 TIER UP!</div>
+            <div className={`fanfare-tier-badge tier-${fanfare.tier.toLowerCase()}`}>
+              {fanfare.tier}
+            </div>
+            <h2 className="fanfare-title">
+              {fanfare.name}, you&apos;re now a<br/>
+              <span className="fanfare-tier-name">{TIER_LABEL[fanfare.tier]}!</span>
+            </h2>
+            <p className="fanfare-sub">
+              That solve unlocked a whole new tier on the Sky Trail. Keep going — the Cloud Castle awaits.
+            </p>
+            <button
+              className="btn-primary fanfare-cta"
+              onClick={() => { setFanfare(null); tierPromotionBurst(); }}
+            >Awesome ✨</button>
           </div>
         </div>
       )}

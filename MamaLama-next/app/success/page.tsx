@@ -1,14 +1,24 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { celebratoryBurst } from '@/lib/confetti';
 
 function SuccessContent() {
   const params = useSearchParams();
   const orderNumber = params.get('order') || '—';
   const paymentId = params.get('payment') || '';
   const totalStr = params.get('total') || '0.00';
+
+  // 🎉 Fire confetti the moment the success page mounts (real order placed)
+  useEffect(() => {
+    if (orderNumber !== '—') {
+      // Slight delay so the page paints first
+      const t = setTimeout(() => celebratoryBurst(), 220);
+      return () => clearTimeout(t);
+    }
+  }, [orderNumber]);
 
   const today = new Date();
   const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });

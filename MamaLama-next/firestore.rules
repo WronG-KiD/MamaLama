@@ -1,0 +1,62 @@
+// Firestore Security Rules for MamaLama
+//
+// HOW TO USE: Copy the entire contents of this file (everything below the dashes)
+// and paste it into your Firebase Console → Firestore Database → Rules tab.
+// Click "Publish". Takes effect immediately.
+//
+// =============================================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================================================
+    // /orders/{orderNumber}
+    // Razorpay orders + COD records.
+    // Only the server (via Admin SDK) reads/writes these — the client never
+    // touches them directly. Locked down completely from public client.
+    // ============================================================
+    match /orders/{orderNumber} {
+      allow read, write: if false;
+    }
+
+    // ============================================================
+    // /users/{uid}/profiles/{profileId}
+    // Sky Trail profiles (private to the signed-in anonymous user).
+    // Only the user who owns this UID can read or write their own profiles.
+    // ============================================================
+    match /users/{uid}/profiles/{profileId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Future-proof: subcollection for /users/{uid}/profiles/{profileId}/solves
+    // (currently solves live inside the profile doc as an array; this rule
+    // is a safety net if we ever move them to a subcollection)
+    match /users/{uid}/profiles/{profileId}/solves/{solveId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // ============================================================
+    // /leaderboard/{profileId}
+    // Public denormalized snapshot of profile XP + tier + display name.
+    // Anyone (even unauthenticated visitors) can READ — that's the point.
+    // Only the profile owner can WRITE their own entry.
+    // ============================================================
+    match /leaderboard/{profileId} {
+      allow read: if true;
+      allow create, update: if request.auth != null
+        && request.resource.data.parentUid == request.auth.uid
+        && request.resource.data.keys().hasOnly([
+          'profileId', 'parentUid', 'name', 'avatar',
+          'tier', 'xp', 'solvesCount', 'updatedAt', 'updatedAtServer'
+        ])
+        && request.resource.data.xp is number
+        && request.resource.data.xp >= 0
+        && request.resource.data.xp <= 1000000  // sanity cap to deter cheating
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 40;
+      allow delete: if request.auth != null
+        && resource.data.parentUid == request.auth.uid;
+    }
+  }
+}
